@@ -178,12 +178,14 @@ function removeItemFromBackpack(item) {
     updateBackpackDisplay();
 }
 
-// Function to sort rarities by chance
-function sortRaritiesByChance() {
-    rarities.sort((a, b) => {
-        return a.chance - b.chance;
-    });
+// Function to sort rarities by chance in ascending order
+function sortByChanceAscending() {
+    rarities.sort((a, b) => a.chance - b.chance);
+    updateBackpackDisplay();
 }
 
-// Call the function to sort the rarities array
-sortRaritiesByChance();
+// Function to sort rarities by chance in descending order
+function sortByChanceDescending() {
+    rarities.sort((a, b) => b.chance - a.chance);
+    updateBackpackDisplay();
+}
