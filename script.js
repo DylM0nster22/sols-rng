@@ -18,7 +18,7 @@ const rarities = [
     { name: "aquamarine", chance: 0.0005555555555555556 },
     { name: "diaboli", chance: 0.00049800796812749 },
     { name: "precious", chance: 0.00048828125 },
-    { name: "undefined", chance: 0.00045004500450045 }
+    { name: "undefined", chance: 0.00045004500450045 },
     { name: "magnetic", chance: 0.00048828125 },
     { name: "sidereum", chance: 0.000244140625 },
     { name: "bleeding", chance: 0.00022502250225 },
