@@ -64,7 +64,7 @@ const rarities = [
     { name: "chromatic : genesis", chance: 1.000001e-8 },
     { name: "abyssal hunter", chance: 1e-8 },
     { name: "impeached", chance: 5e-9 },
-    { name: "archangel", chance: 4e-9 }
+    { name: "archangel", chance: 4e-9 },
 ];
 
 const craftingRequirements = {
