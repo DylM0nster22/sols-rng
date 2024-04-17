@@ -46,21 +46,6 @@ document.getElementById("roll-btn").addEventListener("click", roll);
 document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
 document.getElementById("craft-btn").addEventListener("click", craftItem);
 
-let isBackpackOpen = false;
-
-document.querySelector(".backpack").addEventListener("click", toggleBackpack);
-
-function toggleBackpack() {
-    const backpackContent = document.querySelector(".backpack-content");
-    if (!isBackpackOpen) {
-        updateBackpackDisplay();
-        backpackContent.style.display = "block";
-    } else {
-        backpackContent.style.display = "none";
-    }
-    isBackpackOpen = !isBackpackOpen;
-}
-
 function roll() {
     const rand = Math.random();
     console.log("Random number generated:", rand);
