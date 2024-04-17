@@ -120,21 +120,24 @@ function addToBackpack(item) {
 function updateBackpackDisplay() {
     const backpackElement = document.querySelector(".backpack");
     backpackElement.innerHTML = "<h2>Backpack:</h2>";
-    
+
     // Count the occurrences of each rarity
     const rarityCounts = {};
     backpack.forEach(item => {
         rarityCounts[item] = (rarityCounts[item] || 0) + 1;
     });
 
+    // Sort the rarity counts object by rarity name alphabetically
+    const sortedRarityCounts = Object.entries(rarityCounts)
+        .sort(([rarityA], [rarityB]) => rarityA.localeCompare(rarityB));
+
     // Display each rarity with its count
-    for (const rarity in rarityCounts) {
-        const count = rarityCounts[rarity];
+    sortedRarityCounts.forEach(([rarity, count]) => {
         const itemElement = document.createElement("div");
         itemElement.textContent = `${rarity} (${count})`;
         itemElement.classList.add("backpack-item");
         backpackElement.appendChild(itemElement);
-    }
+    });
 }
 
 function toggleAutoRoll() {
@@ -169,26 +172,6 @@ function craftItem() {
 function countItemsInBackpack(item) {
     return backpack.filter(i => i === item).length;
 }
-
-function sortByChanceAscending() {
-    console.log("Sorting rarities by chance in ascending order...");
-    rarities.sort((a, b) => a.chance - b.chance);
-    updateBackpackDisplay();
-}
-
-// Function to sort rarities by chance in descending order
-function sortByChanceDescending() {
-    console.log("Sorting rarities by chance in descending order...");
-    rarities.sort((a, b) => b.chance - a.chance);
-    updateBackpackDisplay();
-}
-
-// Event listeners for sorting buttons
-document.getElementById("sort-ascending-btn").addEventListener("click", sortByChanceAscending);
-document.getElementById("sort-descending-btn").addEventListener("click", sortByChanceDescending);
-
-// Call the sorting functions initially
-sortByChanceAscending();
 
 function removeItemFromBackpack(item) {
     const index = backpack.indexOf(item);
