@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.backpack, .shop {
+    display: inline-block;
+    vertical-align: top;
+    width: 45%;
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+.backpack h2, .shop h2 {
+    margin-top: 0;
+}
+
+.backpack-item, .shop-item {
+    margin-bottom: 5px;
+}
