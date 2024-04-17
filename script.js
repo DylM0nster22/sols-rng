@@ -170,6 +170,23 @@ function countItemsInBackpack(item) {
     return backpack.filter(i => i === item).length;
 }
 
+function sortByChanceAscending() {
+    console.log("Sorting rarities by chance in ascending order...");
+    rarities.sort((a, b) => a.chance - b.chance);
+    updateBackpackDisplay();
+}
+
+// Function to sort rarities by chance in descending order
+function sortByChanceDescending() {
+    console.log("Sorting rarities by chance in descending order...");
+    rarities.sort((a, b) => b.chance - a.chance);
+    updateBackpackDisplay();
+}
+
+// Event listeners for sorting buttons
+document.getElementById("sort-ascending-btn").addEventListener("click", sortByChanceAscending);
+document.getElementById("sort-descending-btn").addEventListener("click", sortByChanceDescending);
+
 function removeItemFromBackpack(item) {
     const index = backpack.indexOf(item);
     if (index !== -1) {
