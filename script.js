@@ -67,14 +67,6 @@ const rarities = [
     { name: "archangel", chance: 4e-9 }
 ];
 
-// Function to sort rarities by chance
-function sortRaritiesByChance() {
-    rarities.sort((a, b) => a.chance - b.chance);
-}
-
-// Call the function to sort the rarities array
-sortRaritiesByChance();
-
 const craftingRequirements = {
     item1: {
         common: 1,
@@ -185,3 +177,13 @@ function removeItemFromBackpack(item) {
     }
     updateBackpackDisplay();
 }
+
+// Function to sort rarities by chance
+function sortRaritiesByChance() {
+    rarities.sort((a, b) => {
+        return a.chance - b.chance;
+    });
+}
+
+// Call the function to sort the rarities array
+sortRaritiesByChance();
