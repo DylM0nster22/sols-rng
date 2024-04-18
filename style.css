@@ -17,7 +17,7 @@ button {
     cursor: pointer;
 }
 
-.backpack, .shop {
+.backpack-container, .shop, .rarities {
     display: inline-block;
     vertical-align: top;
     width: 45%;
@@ -27,10 +27,10 @@ button {
     border-radius: 5px;
 }
 
-.backpack h2, .shop h2 {
+.backpack h2, .shop h2, .rarities h2 {
     margin-top: 0;
 }
 
-.backpack-item, .shop-item {
+.backpack-item, .shop-item, .rarity-item {
     margin-bottom: 5px;
 }

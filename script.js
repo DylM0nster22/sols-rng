@@ -68,15 +68,16 @@ document.addEventListener("DOMContentLoaded", function() {
         { name: "archangel", chance: 4e-9 }
     ];
 
+    const craftingRequirements = {
+        item1: {
+            common: 1,
+            rare: 3,
+            divinus: 2,
+            crystallized: 1
+        }
+    };
+
     const backpack = [];
-
-    // Calculate the sum of all rarity chances
-    const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
-
-    // Normalize the rarity chances
-    for (const rarity of rarities) {
-        rarity.chance /= sumOfChances;
-    }
 
     let autoRollInterval;
 
