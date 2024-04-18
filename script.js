@@ -92,6 +92,26 @@ document.getElementById("roll-btn").addEventListener("click", roll);
 document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
 document.getElementById("craft-btn").addEventListener("click", craftItem);
 
+document.getElementById("sort-rarities-btn").addEventListener("click", sortRarities);
+
+function sortRarities() {
+    rarities.sort((a, b) => a.chance - b.chance);
+    updateRaritiesDisplay();
+}
+
+function updateRaritiesDisplay() {
+    const raritiesElement = document.querySelector(".rarities");
+    raritiesElement.innerHTML = "<h2>Rarities:</h2>";
+
+    // Display each rarity with its chance
+    rarities.forEach(rarity => {
+        const rarityElement = document.createElement("div");
+        rarityElement.textContent = `${rarity.name} (${rarity.chance})`;
+        rarityElement.classList.add("rarity-item");
+        raritiesElement.appendChild(rarityElement);
+    });
+}
+
 function roll() {
     const rand = Math.random();
     console.log("Random number generated:", rand);
@@ -147,20 +167,6 @@ function toggleAutoRoll() {
     } else {
         autoRollInterval = setInterval(roll, 1000); // Change interval as desired (in milliseconds)
     }
-}
-
-// Function to sort rarities by chance in ascending order
-function sortByChanceAscending() {
-    console.log("Sorting rarities by chance in ascending order...");
-    rarities.sort((rarity1, rarity2) => rarity1.chance - rarity2.chance);
-    updateBackpackDisplay();
-}
-
-// Function to sort rarities by chance in descending order
-function sortByChanceDescending() {
-    console.log("Sorting rarities by chance in descending order...");
-    rarities.sort((rarity1, rarity2) => rarity2.chance - rarity1.chance);
-    updateBackpackDisplay();
 }
 
 function craftItem() {
