@@ -149,6 +149,20 @@ function toggleAutoRoll() {
     }
 }
 
+// Function to sort rarities by chance in ascending order
+function sortByChanceAscending() {
+    console.log("Sorting rarities by chance in ascending order...");
+    rarities.sort((rarity1, rarity2) => rarity1.chance - rarity2.chance);
+    updateBackpackDisplay();
+}
+
+// Function to sort rarities by chance in descending order
+function sortByChanceDescending() {
+    console.log("Sorting rarities by chance in descending order...");
+    rarities.sort((rarity1, rarity2) => rarity2.chance - rarity1.chance);
+    updateBackpackDisplay();
+}
+
 function craftItem() {
     const requirements = craftingRequirements.item1;
     for (const rarity in requirements) {
