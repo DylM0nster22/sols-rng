@@ -150,7 +150,7 @@ function toggleAutoRoll() {
         clearInterval(autoRollInterval);
         autoRollInterval = null;
     } else {
-        autoRollInterval = setInterval(roll, 1000); // Change interval as desired (in milliseconds)
+        autoRollInterval = setInterval(roll, 1); // Change interval as desired (in milliseconds)
     }
 }
 
