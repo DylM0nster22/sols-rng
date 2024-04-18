@@ -130,14 +130,16 @@ function updateBackpackDisplay() {
         rarityCounts[item] = (rarityCounts[item] || 0) + 1;
     });
 
-    // Sort the rarity counts object by rarity name alphabetically
-    const sortedRarityCounts = Object.entries(rarityCounts)
-        .sort(([rarityA], [rarityB]) => rarityA.localeCompare(rarityB));
+    // Sort the rarity counts object by rarity index
+    const sortedRarityCounts = rarities.map(rarity => ({
+        name: rarity.name,
+        count: rarityCounts[rarity.name] || 0
+    }));
 
     // Display each rarity with its count
-    sortedRarityCounts.forEach(([rarity, count]) => {
+    sortedRarityCounts.forEach(item => {
         const itemElement = document.createElement("div");
-        itemElement.textContent = `${rarity} (${count})`;
+        itemElement.textContent = `${item.name} (${item.count})`;
         itemElement.classList.add("backpack-item");
         backpackElement.appendChild(itemElement);
     });
@@ -157,7 +159,7 @@ function sortByRarityAscending() {
     backpack.sort((item1, item2) => {
         const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
         const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
-        return rarities[rarityIndex1].chance - rarities[rarityIndex2].chance;
+        return rarityIndex1 - rarityIndex2;
     });
     updateBackpackDisplay();
 }
@@ -167,7 +169,7 @@ function sortByRarityDescending() {
     backpack.sort((item1, item2) => {
         const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
         const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
-        return rarities[rarityIndex2].chance - rarities[rarityIndex1].chance;
+        return rarityIndex2 - rarityIndex1;
     });
     updateBackpackDisplay();
 }
