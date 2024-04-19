@@ -34,7 +34,3 @@ button {
 .backpack-item, .shop-item {
     margin-bottom: 5px;
 }
-
-.hidden {
-    display: none;
-}

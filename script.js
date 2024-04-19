@@ -96,7 +96,6 @@ document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAs
 document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
 document.getElementById('save-btn').addEventListener('click', saveGameState);
 document.getElementById('load-btn').addEventListener('change', loadGameState);
-document.getElementById("backpack-btn").addEventListener("click", toggleBackpack);
 
 function roll() {
     const rand = Math.random();
@@ -152,11 +151,6 @@ function encrypt(data) {
 function decrypt(data) {
     const decryptedData = atob(data); // Using Base64 decoding for decryption
     return decryptedData;
-}
-
-function toggleBackpack() {
-    const backpackContent = document.getElementById("backpack-content");
-    backpackContent.classList.toggle("hidden"); // Toggle the "hidden" class
 }
 
 // Function to save game state to a text file
