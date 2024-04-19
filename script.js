@@ -140,10 +140,24 @@ function updateBackpackDisplay() {
     });
 }
 
+// Encrypts the game state data
+function encrypt(data) {
+    // Your encryption algorithm goes here
+    // For demonstration, let's just return the data as is
+    return data;
+}
+
+// Decrypts the encrypted game state data
+function decrypt(data) {
+    // Your decryption algorithm goes here
+    // For demonstration, let's just return the data as is
+    return data;
+}
+
 // Function to save game state to a text file
 function saveGameState() {
-    const gameData = JSON.stringify(backpack); // Convert backpack array to JSON string
-    const blob = new Blob([gameData], { type: 'text/plain' });
+    const encryptedData = encrypt(JSON.stringify(backpack)); // Encrypt the game data
+    const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
 
     // Create a link element and click it to trigger file download
@@ -162,7 +176,9 @@ function loadGameState(event) {
     const reader = new FileReader();
 
     reader.onload = function() {
-        const gameData = JSON.parse(reader.result); // Parse JSON string to JavaScript array
+        const encryptedData = reader.result;
+        const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
+        const gameData = JSON.parse(decryptedData); // Parse JSON string to JavaScript array
         backpack.length = 0; // Clear current backpack
         gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
         updateBackpackDisplay(); // Update UI to reflect changes
