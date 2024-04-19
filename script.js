@@ -141,25 +141,16 @@ function updateBackpackDisplay() {
     });
 }
 
-// Encrypts the game state data
-function encrypt(text, shift) {
-    let result = '';
-    for (let i = 0; i < text.length; i++) {
-        let char = text.charCodeAt(i);
-        if (char >= 65 && char <= 90) { // Uppercase letters
-            result += String.fromCharCode((char - 65 + shift) % 26 + 65);
-        } else if (char >= 97 && char <= 122) { // Lowercase letters
-            result += String.fromCharCode((char - 97 + shift) % 26 + 97);
-        } else {
-            result += text.charAt(i);
-        }
-    }
-    return result;
+// Function to encrypt the game state data
+function encrypt(data) {
+    const encryptedData = btoa(data); // Using Base64 encoding for encryption
+    return encryptedData;
 }
 
-// Decrypts the encrypted game state data
-function decrypt(text, shift) {
-    return encrypt(text, (26 - shift) % 26); // Decryption is just encryption with reverse shift
+// Function to decrypt the encrypted game state data
+function decrypt(data) {
+    const decryptedData = atob(data); // Using Base64 decoding for decryption
+    return decryptedData;
 }
 
 // Function to save game state to a text file
