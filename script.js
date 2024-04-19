@@ -91,9 +91,10 @@ let autoRollInterval;
 document.getElementById("roll-btn").addEventListener("click", roll);
 document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
 document.getElementById("craft-btn").addEventListener("click", craftItem);
-
 document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
 document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
+document.getElementById('save-btn').addEventListener('click', saveGameState);
+document.getElementById('load-btn').addEventListener('change', loadGameState);
 
 function roll() {
     const rand = Math.random();
@@ -137,6 +138,37 @@ function updateBackpackDisplay() {
         itemElement.classList.add("backpack-item");
         backpackElement.appendChild(itemElement);
     });
+}
+
+// Function to save game state to a text file
+function saveGameState() {
+    const gameData = JSON.stringify(backpack); // Convert backpack array to JSON string
+    const blob = new Blob([gameData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    // Create a link element and click it to trigger file download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'game_save.txt';
+    a.click();
+
+    // Clean up by revoking the object URL
+    URL.revokeObjectURL(url);
+}
+
+// Function to load game state from a text file
+function loadGameState(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function() {
+        const gameData = JSON.parse(reader.result); // Parse JSON string to JavaScript array
+        backpack.length = 0; // Clear current backpack
+        gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
+        updateBackpackDisplay(); // Update UI to reflect changes
+    };
+
+    reader.readAsText(file);
 }
 
 function toggleAutoRoll() {
