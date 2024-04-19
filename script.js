@@ -124,22 +124,16 @@ function updateBackpackDisplay() {
     const backpackElement = document.querySelector(".backpack");
     backpackElement.innerHTML = "<h2>Backpack:</h2>";
 
-    // Count the occurrences of each rarity
+    // Count the occurrences of each rarity in the backpack
     const rarityCounts = {};
     backpack.forEach(item => {
         rarityCounts[item] = (rarityCounts[item] || 0) + 1;
     });
 
-    // Sort the rarity counts object by rarity index
-    const sortedRarityCounts = rarities.map(rarity => ({
-        name: rarity.name,
-        count: rarityCounts[rarity.name] || 0
-    }));
-
-    // Display each rarity with its count
-    sortedRarityCounts.forEach(item => {
+    // Display each rarity present in the backpack with its count
+    Object.entries(rarityCounts).forEach(([rarity, count]) => {
         const itemElement = document.createElement("div");
-        itemElement.textContent = `${item.name} (${item.count})`;
+        itemElement.textContent = `${rarity} (${count})`;
         itemElement.classList.add("backpack-item");
         backpackElement.appendChild(itemElement);
     });
