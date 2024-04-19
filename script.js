@@ -43,6 +43,7 @@ const rarities = [
     { name: "lunar : Full moon", chance: 2e-6 },
     { name: "twilight", chance: 1.66666666667e-6 },
     { name: "kyawthuite", chance: 1.17647058824e-6 },
+    { name: "Uwu", chance: 1.12485939e-6 },
     { name: "arcane", chance: 1e-6 },
     { name: "starscourge", chance: 1e-6 },
     { name: "magnetic : reverse polarity", chance: 9.765625e-7 },
@@ -141,17 +142,24 @@ function updateBackpackDisplay() {
 }
 
 // Encrypts the game state data
-function encrypt(data) {
-    // Your encryption algorithm goes here
-    // For demonstration, let's just return the data as is
-    return data;
+function encrypt(text, shift) {
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+        let char = text.charCodeAt(i);
+        if (char >= 65 && char <= 90) { // Uppercase letters
+            result += String.fromCharCode((char - 65 + shift) % 26 + 65);
+        } else if (char >= 97 && char <= 122) { // Lowercase letters
+            result += String.fromCharCode((char - 97 + shift) % 26 + 97);
+        } else {
+            result += text.charAt(i);
+        }
+    }
+    return result;
 }
 
 // Decrypts the encrypted game state data
-function decrypt(data) {
-    // Your decryption algorithm goes here
-    // For demonstration, let's just return the data as is
-    return data;
+function decrypt(text, shift) {
+    return encrypt(text, (26 - shift) % 26); // Decryption is just encryption with reverse shift
 }
 
 // Function to save game state to a text file
