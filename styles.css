@@ -27,8 +27,8 @@ body {
   border-radius: 8px;
   position: absolute; /* To position it over the game content */
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centers the shop */
+  right: 10px;  /* Positions it on the right side */
+  transform: translateY(-50%); /* Centers it vertically */
 }
 
 #close-shop-button {
