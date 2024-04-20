@@ -1,36 +1,61 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Luckiest Guy', cursive; 
+    background-image: url("D:\sols rng game\sols-rng\backround.png"); 
+    background-size: cover;
+    background-repeat: no-repeat;
     margin: 0;
     padding: 0;
-}
-
-.game-container {
+    display: flex; /* Center the game container */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure full screen coverage */
+  }
+  
+  .game-container {
     max-width: 800px;
-    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark with semi-transparency */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); 
     text-align: center;
-}
-
-button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+  }
+  
+  button {
+    background-color: #3498db; 
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-}
-
-.backpack, .shop {
+    margin: 10px 5px; 
+    font-size: 18px; 
+    transition: all 0.2s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #2980b9; 
+  }
+  
+  button:active {
+    transform: translateY(2px);
+  }
+  
+  .backpack, .shop {
     display: inline-block;
     vertical-align: top;
     width: 45%;
     margin-top: 20px;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-}
-
-.backpack h2, .shop h2 {
+    padding: 20px;
+    border: 2px solid #666666; 
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2); /* White with transparency */
+  }
+  
+  .backpack h2, .shop h2 {
     margin-top: 0;
-}
-
-.backpack-item, .shop-item {
+  }
+  
+  .backpack-item, .shop-item {
     margin-bottom: 5px;
-}
+  }
+  
