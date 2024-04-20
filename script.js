@@ -108,7 +108,13 @@ function roll() {
       cumulativeProbabilities.push(currentProbability);
     }
   
-    // Find the rarity using binary search (more efficient)
+    // Check if rand is less than the first cumulative probability (common case)
+    if (rand < cumulativeProbabilities[0]) {
+        addToBackpack(rarities[0].name);
+        return;
+    }
+
+    // Find the rarity using binary search for the rest of the array
     let lowerIndex = 0;
     let upperIndex = cumulativeProbabilities.length - 1;
   
@@ -125,8 +131,7 @@ function roll() {
     }
   
     console.error("Error: No rarity found.");
-  }
-  
+}
 
 function addToBackpack(item) {
     backpack.push(item);
