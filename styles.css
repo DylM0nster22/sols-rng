@@ -59,6 +59,31 @@ button:active {
   margin-bottom: 5px;
 }
 
+.backpack-container {
+  display: flex; /* Arrange backpack and shop side-by-side */
+  justify-content: space-around;
+}
+
+.shop-recipe {
+  border: 2px solid #666666; 
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.craft-button {
+  background-color: #3498db; 
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.craft-button:hover {
+  background-color: #2980b9;
+}
+
 /* Responsive Styles */
 @media only screen and (max-width: 768px) { 
   .backpack, .shop {
