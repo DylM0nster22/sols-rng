@@ -69,25 +69,12 @@ const rarities = [
 ];
 
 const craftingRequirements = {
-    "Gear Basing": {
-         rare: 1,
-         good: 1,
-         uncommon: 1,
-         common: 1,
-
-    },
-    "Luck Glove": {
-         rare: 3,
-         divinus: 2,
-         crystallized: 1,
-         "Gear Basing": 1,
-
-    },
-    "Lunar Device": {
-         rare: 2,
-         divinus: 1
-    },
-    // ...more recipes
+    item1: {
+        common: 1,
+        rare: 3,
+        divinus: 2,
+        crystallized: 1
+    }
 };
 
 const backpack = [];
@@ -181,47 +168,6 @@ function decrypt(data) {
     const decryptedData = atob(data); // Using Base64 decoding for decryption
     return decryptedData;
 }
-
-function populateShop() {
-    const shopRecipesDiv = document.getElementById("shop-recipes");
-    shopRecipesDiv.innerHTML = ''; // Clear any old recipe displays
-
-    for (const recipeName in craftingRequirements) {
-        const recipe = craftingRequirements[recipeName];
-
-        // Create recipe container
-        const recipeDiv = document.createElement("div");
-        recipeDiv.classList.add("shop-recipe"); 
-
-        // Recipe Name
-        const title = document.createElement("h3");
-        title.textContent = recipeName;
-        recipeDiv.appendChild(title);
-
-        // Ingredients List
-        const ingredientsList = document.createElement("ul");
-        for (const ingredientRarity in recipe) {
-            const listItem = document.createElement("li");
-            listItem.textContent = `${ingredientRarity} x ${recipe[ingredientRarity]}`;
-            ingredientsList.appendChild(listItem);
-        }
-        recipeDiv.appendChild(ingredientsList);
-
-        // Craft Button
-        const craftButton = document.createElement("button");
-        craftButton.textContent = "Craft";
-        craftButton.classList.add("craft-button");
-        craftButton.dataset.recipeName = recipeName; // Store recipe name
-        craftButton.addEventListener('click', craftItem); 
-        recipeDiv.appendChild(craftButton);
-
-        // Add to the shop area
-        shopRecipesDiv.appendChild(recipeDiv); 
-    }
-}
-
-// Call this after you have defined your craftingRequirements 
-populateShop();
 
 // Function to save game state to a text file
 function saveGameState() {
