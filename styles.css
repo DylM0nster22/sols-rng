@@ -20,24 +20,6 @@ body {
   text-align: center;
 }
 
-#shop-container {
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-  border: 2px solid black;
-  padding: 20px;
-  border-radius: 8px;
-  position: absolute; /* To position it over the game content */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centers the shop */
-}
-
-#close-shop-button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-
-
 button {
   background-color: #3498db; 
   color: white;
