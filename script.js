@@ -77,6 +77,15 @@ const craftingRequirements = {
     }
 };
 
+document.getElementById("shop-button").addEventListener("click", function() {
+const shopContainer = document.getElementById("shop-container");
+  if (shopContainer.style.display === "none") {
+    shopContainer.style.display = "block"; 
+  } else {
+    shopContainer.style.display = "none"; 
+  }
+});
+
 const craftingRecipes = {
     item1: {
       common: 1, 
