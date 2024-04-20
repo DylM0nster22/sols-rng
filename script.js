@@ -1,6 +1,6 @@
 const rarities = [
     { name: "common", chance: 0.5 },
-    { name: "uncommon", chance: 0.25 },
+    { name: "uncommon", chance: 0.2 },
     { name: "good", chance: 0.1 },
     { name: "natural", chance: 0.05 },
     { name: "rare", chance: 0.025 },
@@ -77,6 +77,16 @@ const craftingRequirements = {
     }
 };
 
+const craftingRecipes = {
+    item1: {
+      common: 1, 
+      rare: 3,
+      divinus: 2,
+      crystallized: 1
+    }
+    // Add more recipes here
+};  
+
 const backpack = [];
 
 // Calculate the sum of all rarity chances
@@ -125,7 +135,7 @@ function roll() {
     }
   
     console.error("Error: No rarity found.");
-  }
+}
   
 
 function addToBackpack(item) {
@@ -246,14 +256,51 @@ function craftItem() {
     addToBackpack("Crafted Item");
 }
 
-function countItemsInBackpack(item) {
-    return backpack.filter(i => i === item).length;
+function countItemsInBackpack(rarityName) {
+    return backpack.filter(item => item.name === rarityName).length;
 }
-
-function removeItemFromBackpack(item) {
-    const index = backpack.indexOf(item);
+  
+  function removeItemFromBackpack(rarityName) {
+    const index = backpack.findIndex(item => item.name === rarityName); // Updated
     if (index !== -1) {
-        backpack.splice(index, 1);
+      backpack.splice(index, 1);
     }
     updateBackpackDisplay();
 }
+  
+function craftItem(recipeName) { 
+    const requirements = craftingRecipes[recipeName];
+    if (!requirements) {
+      console.error(`Crafting recipe not found: ${recipeName}`);
+      return;
+    }
+  
+    const hasSufficientResources = Object.entries(requirements).every(([rarityName, requiredAmount]) => {
+      return countItemsInBackpack(rarityName) >= requiredAmount;
+    });
+  
+    if (!hasSufficientResources) {
+      console.error("Not enough resources for crafting.");
+      return;
+    }
+  
+    // Remove required resources from backpack
+    for (const [rarityName, requiredAmount] of Object.entries(requirements)) {
+      for (let i = 0; i < requiredAmount; i++) {
+        removeItemFromBackpack(rarityName);
+      }
+    }
+  
+    addToBackpack("Crafted Item"); // Replace with the actual crafted item name
+} 
+
+function getRarityColor(rarityName) {
+    const rarity = rarities.find(item => item.name === rarityName);
+    if (rarity) {
+      return rarity.color; 
+    } else {
+      console.error(`Rarity not found: ${rarityName}`); 
+      return "white"; // Default color  
+    } 
+} 
+  
