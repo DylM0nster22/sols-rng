@@ -1,61 +1,68 @@
 body {
-    font-family: 'Luckiest Guy', cursive; 
-    background-image: url("backround.png"); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    display: flex; /* Center the game container */
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Ensure full screen coverage */
-  }
-  
-  .game-container {
-    max-width: 800px;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark with semi-transparency */
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); 
-    text-align: center;
-  }
-  
-  button {
-    background-color: #3498db; 
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 5px; 
-    font-size: 18px; 
-    transition: all 0.2s ease-in-out;
-  }
-  
-  button:hover {
-    background-color: #2980b9; 
-  }
-  
-  button:active {
-    transform: translateY(2px);
-  }
-  
+  font-family: 'Luckiest Guy', cursive; 
+  background-image: url("backround.png"); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  display: flex; /* Center the game container */
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensure full screen coverage */
+}
+
+.game-container {
+  max-width: 800px;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark with semi-transparency */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); 
+  text-align: center;
+}
+
+button {
+  background-color: #3498db; 
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 5px; 
+  font-size: 18px; 
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #2980b9; 
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+.backpack, .shop {
+  display: inline-block;
+  vertical-align: top;
+  width: 45%;
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #666666; 
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2); 
+}
+
+.backpack h2, .shop h2 {
+  margin-top: 0;
+}
+
+.backpack-item, .shop-item {
+  margin-bottom: 5px;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 768px) { 
   .backpack, .shop {
-    display: inline-block;
-    vertical-align: top;
-    width: 45%;
-    margin-top: 20px;
-    padding: 20px;
-    border: 2px solid #666666; 
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.2); /* White with transparency */
+    width: 100%; /* Take up full width on smaller screens */
+    margin: 10px auto; /* Center them horizontally */
   }
-  
-  .backpack h2, .shop h2 {
-    margin-top: 0;
-  }
-  
-  .backpack-item, .shop-item {
-    margin-bottom: 5px;
-  }
-  
+}
