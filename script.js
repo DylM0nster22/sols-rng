@@ -99,23 +99,34 @@ document.getElementById('load-btn').addEventListener('change', loadGameState);
 
 function roll() {
     const rand = Math.random();
-    console.log("Random number generated:", rand);
-
-    let lowerBound = 0;
-
-    for (const item of rarities) {
-        const upperBound = lowerBound + item.chance;
-
-        if (rand >= lowerBound && rand < upperBound) {
-            addToBackpack(item.name);
-            return;
-        }
-
-        lowerBound = upperBound;
+  
+    // Create a cumulative probability array for faster lookups
+    let cumulativeProbabilities = [];
+    let currentProbability = 0;
+    for (const rarity of rarities) {
+      currentProbability += rarity.chance;
+      cumulativeProbabilities.push(currentProbability);
     }
-
+  
+    // Find the rarity using binary search (more efficient)
+    let lowerIndex = 0;
+    let upperIndex = cumulativeProbabilities.length - 1;
+  
+    while (lowerIndex <= upperIndex) {
+      const middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
+      if (rand >= cumulativeProbabilities[middleIndex - 1] && rand < cumulativeProbabilities[middleIndex]) {
+        addToBackpack(rarities[middleIndex].name);
+        return; 
+      } else if (rand < cumulativeProbabilities[middleIndex]) {
+        upperIndex = middleIndex - 1;
+      } else {
+        lowerIndex = middleIndex + 1;
+      }
+    }
+  
     console.error("Error: No rarity found.");
-}
+  }
+  
 
 function addToBackpack(item) {
     backpack.push(item);
