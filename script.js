@@ -79,6 +79,17 @@ const craftingRequirements = {
 
 const backpack = [];
 
+const backpackButton = document.getElementById("backpack-button");
+const backpackContent = document.getElementById("backpack-content");
+
+backpackButton.addEventListener("click", () => {
+    if (backpackContent.style.display === "none") {
+        backpackContent.style.display = "block";
+    } else {
+        backpackContent.style.display = "none";
+    }
+});
+
 // Calculate the sum of all rarity chances
 const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
 

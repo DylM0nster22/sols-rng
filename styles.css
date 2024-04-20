@@ -51,6 +51,26 @@ button:active {
   background-color: rgba(255, 255, 255, 0.2); 
 }
 
+.backpack-button {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+    font-size: 18px;
+    transition: all 0.2s ease-in-out;
+}
+
+.backpack-button:hover {
+    background-color: #2980b9;
+}
+
+.backpack-button:active {
+    transform: translateY(2px);
+}
+
 .backpack h2, .shop h2 {
   margin-top: 0;
 }
