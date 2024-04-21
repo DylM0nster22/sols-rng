@@ -27,72 +27,45 @@ const rarities = [
     { name: "starlight", chance: 0.0002, color: "#EEE8AA" },
     { name: ":flushed:", chance: 0.00014492753623, color: "#FF69B4" },
     { name: "undead", chance: 0.0001, color: "#696969" },
-    { name: "comet", chance: 0.0000833333333333, color: "#6495ED" },
-    { name: "rage:heated", chance: 0.000078125, color: "#B22222" },
-    { name: "permafrost", chance: 0.0000408163265306, color: "#00FFFF" },
-    { name: "stormal", chance: 0.0000333333333333, color: "#4682B4" },
-    { name: "aquatic", chance: 0.000025, color: "#00CED1" },
-    { name: ":flushed: lobotomy", chance: 0.0000144927536232, color: "#FF69B4" },
-    { name: "nautilus", chance: 0.0000142857142857, color: "#2F4F4F" },
-    { name: "exotic", chance: 0.0000100001, color: "#FFD700" }, // This rarity will cycle through rainbow colors
-    { name: "undead: Devil", chance: 0.00001, color: "#8B0000" },
-    { name: "diaboli: Void", chance: 0.0000099601596016, color: "#551A8B" },
-    { name: "bounded", chance: 0.000005, color: "#A52A2A" },
-    { name: "celestial", chance: 0.00000285714285714, color: "#FFFACD" },
-    { name: "galaxy", chance: 0.000002, color: "#8A2BE2" },
-    { name: "lunar : Full moon", chance: 0.000002, color: "#F0E68C" },
-    { name: "twilight", chance: 0.00000166666666667, color: "#D8BFD8" },
-    { name: "kyawthuite", chance: 0.00000117647058824, color: "#F5F5DC" },
-    { name: "Uwu", chance: 0.00000112485939, color: "#FFC0CB" },
-    { name: "arcane", chance: 0.000001, color: "#9932CC" },
-    { name: "starscourge", chance: 0.000001, color: "#9400D3" },
-    { name: "magnetic : reverse polarity", chance: 0.0000009765625, color: "#B0C4DE" },
-    { name: "gravitational", chance: 0.0000005, color: "#696969" },
-    { name: "bounded :unbound", chance: 0.0000005, color: "#A52A2A" },
-    { name: "virtual", chance: 0.0000004, color: "#7F00FF" },
-    { name: "sailor", chance: 0.000000333333333333, color: "#4682B4" },
-    { name: "poseidon", chance: 0.000000263157894737, color: "#00BFFF" },
-    { name: "aquatic: flame", chance: 0.00000025, color: "#00CED1" },
-    { name: "hades", chance: 0.00000015, color: "#8B0000" },
-    { name: "hyper-volt", chance: 0.000000133333333333, color: "#FFD700" },
-    { name: "glitch", chance: 0.0000000819535192542, color: "#8B008B" },
-    { name: "arcane : legacy", chance: 0.0000000666666666667, color: "#9932CC" },
-    { name: "chromatic", chance: 0.00000005, color: "#8A2BE2" },
-    { name: "arcane : dark", chance: 0.0000000333333333333, color: "#9932CC" },
-    { name: "ethereal", chance: 0.0000000285714285714, color: "#7FFFD4" },
-    { name: "exotic - apex", chance: 0.0000000200002, color: "#FFD700" },
-    { name: "matrix", chance: 0.00000002, color: "#00008B" },
-    { name: "chromatic : genesis", chance: 0.00000001, color: "#8A2BE2" },
-    { name: "abyssal hunter", chance: 0.00000001, color: "#00008B" },
-    { name: "impeached", chance: 0.000000005, color: "#FFA07A" },
-    { name: "archangel", chance: 0.000000004, color: "#FFFACD" },
-    { name: "Destiny", chance: 0.0000000263157894737, color: "#FFFFFF" },
-    { name: "Ok", chance: 0.2, color: "#FFFFFF" },
-    { name: "Nifty", chance: 0.00010001, color: "#FFFFFF" },
-    { name: "Hades", chance: 0.00000001, color: "#8B0000" },
-    { name: "Zeus", chance: 0.000001, color: "#FFFFFF" },
-    { name: "Ares", chance: 0.0000000666666666667, color: "#FFFFFF" },
-    { name: "Cosmic", chance: 0.00000112359550562, color: "#FFFFFF" },
-    { name: "Time Machine", chance: 0.0000000384615384615, color: "#FFFFFF" },
-    { name: "The Universe", chance: 0.000001, color: "#FFFFFF" },
-    { name: "Ryan", chance: 0.0000000318309886184, color: "#FFFFFF" },
-    { name: "Waterbending", chance: 0.00000727272727273, color: "#FFFFFF" },
-    { name: "Earthbending", chance: 0.00000727272727273, color: "#FFFFFF" },
-    { name: "Firebending", chance: 0.00000727272727273, color: "#FFFFFF" },
-    { name: "Airbending", chance: 0.00000727272727273, color: "#FFFFFF" },
-    { name: "Physics", chance: 0.000010101010101, color: "#FFFFFF" },
-    { name: "Jester", chance: 0.000012865497076, color: "#FFFFFF" },
-    { name: "Mr Beast", chance: 0.00000080906148867, color: "#FFFFFF" },
-    { name: "Hacker", chance: 0.000000009889030319, color: "#FFFFFF" },
-    { name: "Royal", chance: 0.00000810081008101, color: "#FFFFFF" },
-    { name: "Fortnite", chance: 0.000242718446602, color: "#FFFFFF" },
-    { name: "Google Chrome", chance: 0.00000116959064327, color: "#FFFFFF" },
-    { name: "Discord", chance: 0.00000101317122594, color: "#FFFFFF" },
-    { name: "Wii", chance: 0.00001, color: "#FFFFFF" },
-    { name: "Something", chance: 0.013698630137, color: "#FFFFFF" },
-    { name: "Bitcoin", chance: 0.00000133344448149, color: "#FFFFFF" },
-    { name: "Lava", chance: 0.001001001001, color: "#FFFFFF" },
-    { name: "Solar System", chance: 0.000000286532951289, color: "#FFFFFF" }
+    { name: "comet", chance: 8.33333333333e-5, color: "#6495ED" },
+    { name: "rage:heated", chance: 7.8125e-5, color: "#B22222" },
+    { name: "permafrost", chance: 4.08163265306e-5, color: "#00FFFF" },
+    { name: "stormal", chance: 3.33333333333e-5, color: "#4682B4" },
+    { name: "aquatic", chance: 2.5e-5, color: "#00CED1" },
+    { name: ":flushed: lobotomy", chance: 1.44927536232e-5, color: "#FF69B4" },
+    { name: "nautilus", chance: 1.42857142857e-5, color: "#2F4F4F" },
+    { name: "exotic", chance: 1.0000100001e-5, color: "#FFD700" }, // This rarity will cycle through rainbow colors
+    { name: "undead: Devil", chance: 1e-5, color: "#8B0000" },
+    { name: "diaboli: Void", chance: 9.9601596016e-6, color: "#551A8B" },
+    { name: "bounded", chance: 5e-6, color: "#A52A2A" },
+    { name: "celestial", chance: 2.85714285714e-6, color: "#FFFACD" },
+    { name: "galaxy", chance: 2e-6, color: "#8A2BE2" },
+    { name: "lunar : Full moon", chance: 2e-6, color: "#F0E68C" },
+    { name: "twilight", chance: 1.66666666667e-6, color: "#D8BFD8" },
+    { name: "kyawthuite", chance: 1.17647058824e-6, color: "#F5F5DC" },
+    { name: "Uwu", chance: 1.12485939e-6, color: "#FFC0CB" },
+    { name: "arcane", chance: 1e-6, color: "#9932CC" },
+    { name: "starscourge", chance: 1e-6, color: "#9400D3" },
+    { name: "magnetic : reverse polarity", chance: 9.765625e-7, color: "#B0C4DE" },
+    { name: "gravitational", chance: 5e-7, color: "#696969" },
+    { name: "bounded :unbound", chance: 5e-7, color: "#A52A2A" },
+    { name: "virtual", chance: 4e-7, color: "#7F00FF" },
+    { name: "sailor", chance: 3.33333333333e-7, color: "#4682B4" },
+    { name: "poseidon", chance: 2.63157894737e-7, color: "#00BFFF" },
+    { name: "aquatic: flame", chance: 2.5e-7, color: "#00CED1" },
+    { name: "hades", chance: 1.5e-7, color: "#8B0000" },
+    { name: "hyper-volt", chance: 1.33333333333e-7, color: "#FFD700" },
+    { name: "glitch", chance: 8.19535192542e-8, color: "#8B008B" },
+    { name: "arcane : legacy", chance: 6.66666666667e-8, color: "#9932CC" },
+    { name: "chromatic", chance: 5e-8, color: "#8A2BE2" },
+    { name: "arcane : dark", chance: 3.33333333333e-8, color: "#9932CC" },
+    { name: "ethereal", chance: 2.85714285714e-8, color: "#7FFFD4" },
+    { name: "exotic - apex", chance: 2.0000200002e-8, color: "#FFD700" },
+    { name: "matrix", chance: 2e-8, color: "#00008B" },
+    { name: "chromatic : genesis", chance: 1.000001e-8, color: "#8A2BE2" },
+    { name: "abyssal hunter", chance: 1e-8, color: "#00008B" },
+    { name: "impeached", chance: 5e-9, color: "#FFA07A" },
+    { name: "archangel", chance: 4e-9, color: "#FFFACD" }
 ];
 
 const craftingRequirements = {
@@ -137,46 +110,6 @@ backpackButton.addEventListener("click", () => {
         backpackContent.style.display = "none";
     }
 });
-
-const shopButton = document.getElementById("shop-button");
-const shopContent = document.getElementById("shop-content");
-
-shopButton.addEventListener("click", () => {
-    if (shopContent.style.display === "none") {
-        shopContent.style.display = "block";
-        updateShopDisplay(); // Ensure the shop display is updated each time it's opened
-    } else {
-        shopContent.style.display = "none";
-    }
-});
-
-function updateShopDisplay() {
-    const shopElement = document.querySelector(".shop");
-    shopElement.innerHTML = "<h2>Shop:</h2>";
-
-    // Display crafting recipes with a craft button for each
-    Object.entries(craftingRequirements).forEach(([item, requirements]) => {
-        const itemElement = document.createElement("div");
-        itemElement.textContent = `Craft ${item}: `;
-        
-        // List out the requirements for crafting
-        Object.entries(requirements).forEach(([rarity, amount], index, arr) => {
-            itemElement.textContent += `${amount}x ${rarity}${index < arr.length - 1 ? ', ' : ''}`;
-        });
-
-        // Create a craft button for the item
-        const craftButton = document.createElement("button");
-        craftButton.textContent = `Craft ${item}`;
-        craftButton.addEventListener("click", () => craftItem(item)); // Assuming craftItem function can take an item name as argument
-
-        itemElement.appendChild(craftButton);
-        itemElement.classList.add("shop-item");
-        shopElement.appendChild(itemElement);
-    });
-}
-
-// Initially hide the shop content
-shopContent.style.display = "none";
 
 // Calculate the sum of all rarity chances
 const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
@@ -337,12 +270,8 @@ function sortByRarityDescending() {
     updateBackpackDisplay();
 }
 
-function craftItem(itemName) {
-    const requirements = craftingRequirements[itemName];
-    if (!requirements) {
-        console.error("Crafting requirements not found for item:", itemName);
-        return;
-    }
+function craftItem() {
+    const requirements = craftingRequirements.item1;
     for (const rarity in requirements) {
         const requiredAmount = requirements[rarity];
         const availableAmount = countItemsInBackpack(rarity);
