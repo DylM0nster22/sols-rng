@@ -57,15 +57,16 @@ button:active {
     text-align: left; /* Align backpack content to the left */
 }
 
-.backpack, .shop {
-  display: inline-block;
-  vertical-align: top;
-  width: 45%;
-  margin-top: 20px;
-  padding: 20px;
-  border: 2px solid #666666; 
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.2); 
+.backpack-button, .shop-button {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+    font-size: 18px;
+    transition: all 0.2s ease-in-out;
 }
 
 .backpack-button {
@@ -80,11 +81,11 @@ button:active {
     transition: all 0.2s ease-in-out;
 }
 
-.backpack-button:hover {
+.backpack-button:hover, .shop-button:hover {
     background-color: #2980b9;
 }
 
-.backpack-button:active {
+.backpack-button:active, .shop-button:active {
     transform: translateY(2px);
 }
 

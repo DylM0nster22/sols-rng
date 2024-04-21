@@ -68,16 +68,41 @@ const rarities = [
     { name: "archangel", chance: 4e-9 }
 ];
 
-const craftingRequirements = {
-    item1: {
-        common: 1,
-        rare: 3,
-        divinus: 2,
-        crystallized: 1
-    }
-};
+const craftingRecipes = [
+    {
+        name: "Gear Basing",
+        requirements: {
+            common: 1,
+            rare: 1,
+            good: 1,
+            uncommon: 1
+        }
+    },
+    {
+        name: "luck glove",
+        requirements: {
+            rare: 3,
+            divinus: 2,
+            crystallized: 1,
+            rage: 1
+        }
+    },
+    // ... (same as before)
+];
 
 const backpack = [];
+const craftedItems = [];
+
+const shopButton = document.getElementById("shop-button");
+const shopContent = document.getElementById("shop-content");
+
+shopButton.addEventListener("click", () => {
+    if (shopContent.style.display === "none") {
+        shopContent.style.display = "block";
+    } else {
+        shopContent.style.display = "none";
+    }
+});
 
 const backpackButton = document.getElementById("backpack-button");
 const backpackContent = document.getElementById("backpack-content");
@@ -100,13 +125,15 @@ for (const rarity of rarities) {
 
 let autoRollInterval;
 
-document.getElementById("roll-btn").addEventListener("click", roll);
-document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
-document.getElementById("craft-btn").addEventListener("click", craftItem);
-document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
-document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
-document.getElementById('save-btn').addEventListener('click', saveGameState);
-document.getElementById('load-btn').addEventListener('change', loadGameState);
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("roll-btn").addEventListener("click", roll);
+    document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
+    document.getElementById("craft-btn").addEventListener("click", craftItem);
+    document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
+    document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
+    document.getElementById('save-btn').addEventListener('click', saveGameState);
+    document.getElementById('load-btn').addEventListener('change', loadGameState);
+});
 
 function roll() {
     const rand = Math.random();
@@ -145,7 +172,16 @@ function roll() {
 }
 
 function addToBackpack(item) {
-    backpack.push(item);
+    if (rarities.some(rarity => rarity.name === item)) {
+        backpack.push(item);
+    } else {
+        const existingItem = craftedItems.find(i => i.name === item);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            craftedItems.push({ name: item, quantity: 1 });
+        }
+    }
     updateBackpackDisplay();
 }
 
@@ -153,20 +189,128 @@ function updateBackpackDisplay() {
     const backpackElement = document.querySelector(".backpack");
     backpackElement.innerHTML = "<h2>Backpack:</h2>";
 
-    // Count the occurrences of each rarity in the backpack
+    // Display rarities
     const rarityCounts = {};
     backpack.forEach(item => {
         rarityCounts[item] = (rarityCounts[item] || 0) + 1;
     });
-
-    // Display each rarity present in the backpack with its count
     Object.entries(rarityCounts).forEach(([rarity, count]) => {
         const itemElement = document.createElement("div");
         itemElement.textContent = `${rarity} (${count})`;
         itemElement.classList.add("backpack-item");
         backpackElement.appendChild(itemElement);
     });
+
+    // Display crafted items
+    craftedItems.forEach(item => {
+        const itemElement = document.createElement("div");
+        itemElement.textContent = `${item.name} (${item.quantity})`;
+        itemElement.classList.add("backpack-item");
+        backpackElement.appendChild(itemElement);
+    });
 }
+
+function craftItem(requirements, recipeName) {
+    let canCraft = true;
+    const missingItems = {};
+    const recipe = craftingRecipes.find(r => r.name === recipeName); // Use the name from the recipe object
+    if (!recipe) {
+        throw new Error("No recipe found with the name '" + recipeName + "'.");
+    }
+
+    for (const item in requirements) {
+        const requiredAmount = requirements[item];
+        let availableAmount = 0;
+
+        if (rarities.some(rarity => rarity.name === item)) {
+            availableAmount = countItemsInBackpack(item);
+        } else {
+            const craftedItem = craftedItems.find(i => i.name === item);
+            availableAmount = craftedItem ? craftedItem.quantity : 0;
+        }
+
+        if (availableAmount < requiredAmount) {
+            canCraft = false;
+            missingItems[item] = requiredAmount - availableAmount;
+        }
+    }
+
+    if (canCraft) {
+        for (const item in requirements) {
+            const requiredAmount = requirements[item];
+
+            if (rarities.some(rarity => rarity.name === item)) {
+                for (let i = 0; i < requiredAmount; i++) {
+                    removeItemFromBackpack(item);
+                }
+            } else {
+                const craftedItem = craftedItems.find(i => i.name === item);
+                craftedItem.quantity -= requiredAmount;
+            }
+        }
+        const craftedItemName = recipe.name; // Use the name from the recipe object
+        addToBackpack(craftedItemName);
+        alert("Item crafted successfully!");
+    } else {
+        let missingItemsMessage = "You don't have enough items to craft. Missing:\n";
+        Object.entries(missingItems).forEach(([item, amount]) => {
+            missingItemsMessage += `${amount} ${item}\n`;
+        });
+        alert(missingItemsMessage);
+    }
+}
+
+function sortByRarityAscending() {
+    console.log("Sorting backpack items by rarity in ascending order...");
+    backpack.sort((item1, item2) => {
+        const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
+        const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
+        return rarityIndex1 - rarityIndex2;
+    });
+    updateBackpackDisplay();
+}
+
+function sortByRarityDescending() {
+    console.log("Sorting backpack items by rarity in descending order...");
+    backpack.sort((item1, item2) => {
+        const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
+        const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
+        return rarityIndex2 - rarityIndex1;
+    });
+    updateBackpackDisplay();
+}
+
+function generateShopItems() {
+    const shopElement = document.querySelector(".shop");
+    shopElement.innerHTML = "<h2>Shop:</h2>";
+
+    craftingRecipes.forEach((recipe) => {
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("shop-item");
+
+        const nameElement = document.createElement("h3");
+        nameElement.textContent = recipe.name;
+        itemElement.appendChild(nameElement);
+
+        const requirementsElement = document.createElement("p");
+        requirementsElement.textContent = "Requirements: ";
+        Object.entries(recipe.requirements).forEach(([rarity, amount]) => {
+            requirementsElement.textContent += `${amount} ${rarity}, `;
+        });
+        requirementsElement.textContent = requirementsElement.textContent.slice(0, -2); // Remove the trailing comma and space
+        itemElement.appendChild(requirementsElement);
+
+        const craftButton = document.createElement("button");
+        craftButton.textContent = "Craft";
+        craftButton.addEventListener("click", () => craftItem(recipe.requirements, recipe.name)); // Pass recipe name
+        itemElement.appendChild(craftButton);
+
+        shopElement.appendChild(itemElement);
+    });
+}
+
+// Call generateShopItems() to populate the shop initially
+generateShopItems();
 
 // Function to encrypt the game state data
 function encrypt(data) {
@@ -220,46 +364,6 @@ function toggleAutoRoll() {
     } else {
         autoRollInterval = setInterval(roll, 1); // Change interval as desired (in milliseconds)
     }
-}
-
-function sortByRarityAscending() {
-    console.log("Sorting backpack items by rarity in ascending order...");
-    backpack.sort((item1, item2) => {
-        const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
-        const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
-        return rarityIndex1 - rarityIndex2;
-    });
-    updateBackpackDisplay();
-}
-
-function sortByRarityDescending() {
-    console.log("Sorting backpack items by rarity in descending order...");
-    backpack.sort((item1, item2) => {
-        const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
-        const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
-        return rarityIndex2 - rarityIndex1;
-    });
-    updateBackpackDisplay();
-}
-
-function craftItem() {
-    const requirements = craftingRequirements.item1;
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        const availableAmount = countItemsInBackpack(rarity);
-        if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting.`);
-            return;
-        }
-    }
-    // If all requirements are met, remove items from backpack and add crafted item
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        for (let i = 0; i < requiredAmount; i++) {
-            removeItemFromBackpack(rarity);
-        }
-    }
-    addToBackpack("Crafted Item");
 }
 
 function countItemsInBackpack(item) {
