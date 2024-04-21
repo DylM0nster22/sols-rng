@@ -318,13 +318,11 @@ function encrypt(data) {
     return encryptedData;
 }
 
-// Function to decrypt the encrypted game state data
 function decrypt(data) {
     const decryptedData = atob(data); // Using Base64 decoding for decryption
     return decryptedData;
 }
 
-// Function to save game state to a text file
 function saveGameState() {
     const encryptedData = encrypt(JSON.stringify(backpack)); // Encrypt the game data
     const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
