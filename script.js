@@ -86,7 +86,7 @@ const craftingRecipes = [
             crystallized: 1,
             rage: 1
         }
-    },
+    }
     // ... (same as before)
 ];
 
@@ -210,16 +210,20 @@ function updateBackpackDisplay() {
     });
 }
 
-function craftItem(requirements, recipeName) {
+function craftItem() {
+    const recipeName = document.getElementById("recipe-name").value;
+    
     let canCraft = true;
     const missingItems = {};
-    const recipe = craftingRecipes.find(r => r.name === recipeName); // Use the name from the recipe object
+    
+    const recipe = craftingRecipes.find(r => r.name === recipeName);
+    
     if (!recipe) {
         throw new Error("No recipe found with the name '" + recipeName + "'.");
     }
 
-    for (const item in requirements) {
-        const requiredAmount = requirements[item];
+    for (const item in recipe.requirements) {
+        const requiredAmount = recipe.requirements[item];
         let availableAmount = 0;
 
         if (rarities.some(rarity => rarity.name === item)) {
@@ -236,8 +240,8 @@ function craftItem(requirements, recipeName) {
     }
 
     if (canCraft) {
-        for (const item in requirements) {
-            const requiredAmount = requirements[item];
+        for (const item in recipe.requirements) {
+            const requiredAmount = recipe.requirements[item];
 
             if (rarities.some(rarity => rarity.name === item)) {
                 for (let i = 0; i < requiredAmount; i++) {
