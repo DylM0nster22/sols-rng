@@ -3,6 +3,7 @@ const rarities = [
     { name: "uncommon", chance: 0.25, color: "#808000" },
     { name: "good", chance: 0.1, color: "#00FF00" },
     { name: "rare", chance: 0.025, color: "#15317E" },
+    { name: "natural", chance: 0.125, color: "#39FF14" }, // Neon Green
     { name: "divinus", chance: 0.0125, color: "#FFC0CB" },
     { name: "crystallized", chance: 0.00625, color: "#800080" },
     { name: "rage", chance: 0.003125, color: "#800517" },
