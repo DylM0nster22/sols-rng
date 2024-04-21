@@ -154,13 +154,22 @@ function updateShopDisplay() {
     const shopElement = document.querySelector(".shop");
     shopElement.innerHTML = "<h2>Shop:</h2>";
 
-    // Display crafting recipes
+    // Display crafting recipes with a craft button for each
     Object.entries(craftingRequirements).forEach(([item, requirements]) => {
         const itemElement = document.createElement("div");
         itemElement.textContent = `Craft ${item}: `;
+        
+        // List out the requirements for crafting
         Object.entries(requirements).forEach(([rarity, amount], index, arr) => {
             itemElement.textContent += `${amount}x ${rarity}${index < arr.length - 1 ? ', ' : ''}`;
         });
+
+        // Create a craft button for the item
+        const craftButton = document.createElement("button");
+        craftButton.textContent = `Craft ${item}`;
+        craftButton.addEventListener("click", () => craftItem(item)); // Assuming craftItem function can take an item name as argument
+
+        itemElement.appendChild(craftButton);
         itemElement.classList.add("shop-item");
         shopElement.appendChild(itemElement);
     });
@@ -328,8 +337,12 @@ function sortByRarityDescending() {
     updateBackpackDisplay();
 }
 
-function craftItem() {
-    const requirements = craftingRequirements.item1;
+function craftItem(itemName) {
+    const requirements = craftingRequirements[itemName];
+    if (!requirements) {
+        console.error("Crafting requirements not found for item:", itemName);
+        return;
+    }
     for (const rarity in requirements) {
         const requiredAmount = requirements[rarity];
         const availableAmount = countItemsInBackpack(rarity);
