@@ -158,11 +158,18 @@ function updateBackpackDisplay() {
         rarityCounts[item] = (rarityCounts[item] || 0) + 1;
     });
 
-    // Display each rarity present in the backpack with its count
-    Object.entries(rarityCounts).forEach(([rarity, count]) => {
+    // Display each rarity present in the backpack with its count and color
+    Object.entries(rarityCounts).forEach(([rarityName, count]) => {
         const itemElement = document.createElement("div");
-        itemElement.textContent = `${rarity} (${count})`;
+        itemElement.textContent = `${rarityName} (${count})`;
         itemElement.classList.add("backpack-item");
+
+        // Find the rarity object to get the color
+        const rarity = rarities.find(r => r.name === rarityName);
+        if (rarity && rarity.color) {
+            itemElement.style.color = rarity.color; // Set the text color based on the rarity's color
+        }
+
         backpackElement.appendChild(itemElement);
     });
 }
