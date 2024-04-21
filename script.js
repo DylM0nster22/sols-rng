@@ -69,30 +69,11 @@ const rarities = [
 ];
 
 const craftingRequirements = {
-    "craftLuckGlove": { // Renamed from "item1" to "craftLuckGlove"
+    item1: {
         common: 1,
         rare: 3,
         divinus: 2,
         crystallized: 1
-    },
-    "lunarDevice": {
-        rare: 1,
-        divinus: 1,
-        lunar: 1
-    },
-    "solarDevice": {
-        solar: 1,
-        divinus: 1,
-        rare: 1
-    },
-    "exclipseDevice": {
-        solarDevice: 1,
-        lunarDevice: 1
-    },
-    "jackpotGauntlet": {
-        jackpot: 77,
-        gilded: 77,
-        rare: 777
     }
 };
 
@@ -142,18 +123,11 @@ let autoRollInterval;
 
 document.getElementById("roll-btn").addEventListener("click", roll);
 document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
-document.getElementById("craft-btn").addEventListener("click", () => craftItem("craftLuckGlove"));
+document.getElementById("craft-btn").addEventListener("click", craftItem);
 document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
 document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
 document.getElementById('save-btn').addEventListener('click', saveGameState);
 document.getElementById('load-btn').addEventListener('change', loadGameState);
-
-// Add event listeners for new crafting buttons
-document.getElementById("craft-luck-glove-btn").addEventListener("click", () => craftItem("craftLuckGlove"));
-document.getElementById("craft-lunar-device-btn").addEventListener("click", () => craftItem("lunarDevice"));
-document.getElementById("craft-solar-device-btn").addEventListener("click", () => craftItem("solarDevice"));
-document.getElementById("craft-exclipse-device-btn").addEventListener("click", () => craftItem("exclipseDevice"));
-document.getElementById("craft-jackpot-gauntlet-btn").addEventListener("click", () => craftItem("jackpotGauntlet"));
 
 function roll() {
     const rand = Math.random();
@@ -296,83 +270,16 @@ function sortByRarityDescending() {
     updateBackpackDisplay();
 }
 
-let equippedItem = null; // Variable to store the currently equipped item
-
-// Updated function to equip a crafted item, ensuring only one item can be equipped at a time
-function equipCraftedItem(itemName) {
-    if (equippedItem) {
-        console.log(`Unequipping current item: ${equippedItem}`);
-        removeCraftedItemEffect(equippedItem); // Remove the effect of the currently equipped item
-    }
-
-    equippedItem = itemName; // Update the equipped item
-    console.log(`Equipped item: ${itemName}`);
-    applyCraftedItemEffect(itemName); // Apply the effect of the new equipped item
-}
-
-// Function to remove effects of crafted items
-function removeCraftedItemEffect(itemName) {
-    switch (itemName) {
-        case "craftLuckGlove":
-            // Revert player's luck increase by 25%
-            console.log("Luck increase by 25% reverted.");
-            break;
-        case "lunarDevice":
-            // Revert roll cooldown decrease by 15%
-            console.log("Roll cooldown decrease by 15% reverted.");
-            break;
-        case "solarDevice":
-            // Revert player's luck increase by 50%
-            console.log("Luck increase by 50% reverted.");
-            break;
-        case "exclipseDevice":
-            // Revert luck increase by 50% and roll cooldown decrease by 15%
-            console.log("Luck increase by 50% and roll cooldown decrease by 15% reverted.");
-            break;
-        case "jackpotGauntlet":
-            // Revert luck increase by 77% and roll cooldown decrease by 7%
-            console.log("Luck increase by 77% and roll cooldown decrease by 7% reverted.");
-            break;
-        default:
-            console.error("No effect to revert for this item.");
-    }
-}
-
-function applyCraftedItemEffect(itemName) {
-    switch (itemName) {
-        case "craftLuckGlove":
-            console.log("Luck increased by 25%.");
-            break;
-        // Add cases for other items
-    }
-}
-
-function removeCraftedItemEffect(itemName) {
-    switch (itemName) {
-        case "craftLuckGlove":
-            console.log("Luck increase by 25% reverted.");
-            break;
-        // Add cases for other items
-    }
-}
-
-// Updated craftItem function to automatically equip the crafted item
-function craftItem(itemName) {
-    const requirements = craftingRequirements[itemName];
-    if (!requirements) {
-        console.error(`Item "${itemName}" cannot be crafted because it does not exist.`);
-        return;
-    }
-
+function craftItem() {
+    const requirements = craftingRequirements.item1;
     for (const rarity in requirements) {
         const requiredAmount = requirements[rarity];
         const availableAmount = countItemsInBackpack(rarity);
         if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting ${itemName}.`);
+            console.error(`Not enough ${rarity} for crafting.`);
             return;
         }
     }
-
     // If all requirements are met, remove items from backpack and add crafted item
     for (const rarity in requirements) {
         const requiredAmount = requirements[rarity];
@@ -380,15 +287,8 @@ function craftItem(itemName) {
             removeItemFromBackpack(rarity);
         }
     }
-    addToBackpack(itemName); // Add the crafted item to the backpack
-
-    equipCraftedItem(itemName); // Equip the crafted item automatically
+    addToBackpack("Crafted Item");
 }
-
-// Example usage:
-// craftItem("craftLuckGlove");
-// craftItem("lunarDevice");
-// This will automatically equip "lunarDevice", unequip "craftLuckGlove", and apply the effect of "lunarDevice".
 
 function countItemsInBackpack(item) {
     return backpack.filter(i => i === item).length;
@@ -400,32 +300,4 @@ function removeItemFromBackpack(item) {
         backpack.splice(index, 1);
     }
     updateBackpackDisplay();
-}
-
-// Function to apply effects of crafted items
-function applyCraftedItemEffect(itemName) {
-    switch (itemName) {
-        case "craftLuckGlove":
-            // Increase player's luck by 25%
-            console.log("Luck increased by 25%.");
-            break;
-        case "lunarDevice":
-            // Decrease roll cooldown by 15%
-            console.log("Roll cooldown decreased by 15%.");
-            break;
-        case "solarDevice":
-            // Increase player's luck by 50%
-            console.log("Luck increased by 50%.");
-            break;
-        case "exclipseDevice":
-            // Increase luck by 50% and decrease roll cooldown by 15%
-            console.log("Luck increased by 50% and roll cooldown decreased by 15%.");
-            break;
-        case "jackpotGauntlet":
-            // Increase luck by 77% and decrease roll cooldown by 7%
-            console.log("Luck increased by 77% and roll cooldown decreased by 7%.");
-            break;
-        default:
-            console.error("No effect for this item.");
-    }
 }
