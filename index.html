@@ -19,6 +19,15 @@
         .exotic-color {
           animation: rainbowCycle 10s infinite;
         }
+        #backpack-content, #shop-content {
+            display: none;
+        }
+        .shop, .backpack {
+            margin-top: 20px;
+        }
+        .shop-item, .backpack-item {
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -29,10 +38,9 @@
          <button class="backpack-button" id="backpack-button">Backpack</button>
          <div class="backpack" id="backpack-content" style="display: none;"></div>
         </div>
-        <div class="shop">
-            <h2>Shop:</h2>
-            <!-- Display crafting items here -->
-            <button id="craft-btn">Craft First Item</button>
+        <button id="shop-button">Toggle Shop</button>
+        <div id="shop-content" class="shop">
+            <!-- Shop items will be displayed here -->
         </div>
         <div class="sort-buttons">
             <button id="sort-asc-btn">Sort by Rarity (Low to High)</button>
