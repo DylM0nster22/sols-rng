@@ -125,16 +125,6 @@ for (const rarity of rarities) {
 
 let autoRollInterval;
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("roll-btn").addEventListener("click", roll);
-    document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
-    document.getElementById("craft-btn").addEventListener("click", craftItem);
-    document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
-    document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
-    document.getElementById('save-btn').addEventListener('click', saveGameState);
-    document.getElementById('load-btn').addEventListener('change', loadGameState);
-});
-
 function roll() {
     const rand = Math.random();
   
@@ -375,3 +365,11 @@ function removeItemFromBackpack(item) {
     }
     updateBackpackDisplay();
 }
+
+document.getElementById("roll-btn").addEventListener("click", roll);
+document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
+document.getElementById("craft-btn").addEventListener("click", craftItem);
+document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
+document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
+document.getElementById('save-btn').addEventListener('click', saveGameState);
+document.getElementById('load-btn').addEventListener('change', loadGameState);
