@@ -148,6 +148,13 @@ document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityD
 document.getElementById('save-btn').addEventListener('click', saveGameState);
 document.getElementById('load-btn').addEventListener('change', loadGameState);
 
+// Add event listeners for new crafting buttons
+document.getElementById("craft-luck-glove-btn").addEventListener("click", () => craftItem("craftLuckGlove"));
+document.getElementById("craft-lunar-device-btn").addEventListener("click", () => craftItem("lunarDevice"));
+document.getElementById("craft-solar-device-btn").addEventListener("click", () => craftItem("solarDevice"));
+document.getElementById("craft-exclipse-device-btn").addEventListener("click", () => craftItem("exclipseDevice"));
+document.getElementById("craft-jackpot-gauntlet-btn").addEventListener("click", () => craftItem("jackpotGauntlet"));
+
 function roll() {
     const rand = Math.random();
   
@@ -328,6 +335,24 @@ function removeCraftedItemEffect(itemName) {
             break;
         default:
             console.error("No effect to revert for this item.");
+    }
+}
+
+function applyCraftedItemEffect(itemName) {
+    switch (itemName) {
+        case "craftLuckGlove":
+            console.log("Luck increased by 25%.");
+            break;
+        // Add cases for other items
+    }
+}
+
+function removeCraftedItemEffect(itemName) {
+    switch (itemName) {
+        case "craftLuckGlove":
+            console.log("Luck increase by 25% reverted.");
+            break;
+        // Add cases for other items
     }
 }
 
