@@ -70,12 +70,30 @@ const rarities = [
 
 const craftingRequirements = {
     item1: {
-        common: 1,
-        rare: 3,
-        divinus: 2,
-        crystallized: 1
+      common: 2,
+      rare: 1
+    },
+    item2: {
+      uncommon: 3
+    },
+    // Add more items here
+    item3: {
+      rare: 2,
+      common: 4
     }
-};
+  };
+
+  const craftGearBtn = document.getElementById('craft-gear-btn');
+  const craftGloveBtn = document.getElementById('craft-glove-btn');
+  
+  // Add event listeners to the buttons
+  craftGearBtn.addEventListener('click', () => {
+    craftItem('gear basing');
+  });
+  
+  craftGloveBtn.addEventListener('click', () => {
+    craftItem('luck glove');
+  });
 
 // Define the colors of the rainbow to cycle through
 const rainbowColors = ["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#9400D3"];
@@ -270,25 +288,32 @@ function sortByRarityDescending() {
     updateBackpackDisplay();
 }
 
-function craftItem() {
-    const requirements = craftingRequirements.item1;
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        const availableAmount = countItemsInBackpack(rarity);
-        if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting.`);
-            return;
-        }
+function craftItem(itemName) {
+    const requirements = craftingRequirements[itemName];
+    if (!requirements) {
+      console.error(`No crafting requirements found for ${itemName}.`);
+      return;
     }
+  
+    // Rest of the function remains the same
+    for (const rarity in requirements) {
+      const requiredAmount = requirements[rarity];
+      const availableAmount = countItemsInBackpack(rarity);
+      if (availableAmount < requiredAmount) {
+        console.error(`Not enough ${rarity} for crafting ${itemName}.`);
+        return;
+      }
+    }
+  
     // If all requirements are met, remove items from backpack and add crafted item
     for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        for (let i = 0; i < requiredAmount; i++) {
-            removeItemFromBackpack(rarity);
-        }
+      const requiredAmount = requirements[rarity];
+      for (let i = 0; i < requiredAmount; i++) {
+        removeItemFromBackpack(rarity);
+      }
     }
-    addToBackpack("Crafted Item");
-}
+    addToBackpack(itemName);
+  }
 
 function countItemsInBackpack(item) {
     return backpack.filter(i => i === item).length;
