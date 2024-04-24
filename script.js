@@ -207,6 +207,7 @@ function equipLuckGlove() {
             playerLuck *= 1.25;
         }
     }
+    console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
 }
 
 function equipSolarDevice() {
@@ -220,6 +221,7 @@ function equipSolarDevice() {
             playerLuck *= 1.5;
         }
     }
+    console.log("Equipped Solar Device. Current luck multiplier: " + calculateLuckMultiplier());
 }
 
 function isSolarDeviceEquipped() {
@@ -437,4 +439,17 @@ function removeItemFromBackpack(item) {
         backpack.splice(index, 1);
     }
     updateBackpackDisplay();
+}
+
+// Function to calculate the current luck multiplier based on the equipped items
+function calculateLuckMultiplier() {
+    let multiplier = 1;
+    if (isLuckGloveEquipped()) {
+        multiplier *= 1.25;
+    }
+    if (isSolarDeviceEquipped()) {
+        multiplier *= 1.5;
+    }
+    console.log("Current luck multiplier: " + multiplier);
+    return multiplier;
 }
