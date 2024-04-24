@@ -80,6 +80,12 @@ const craftingRequirements = {
         crystallized: 1,
         rare: 3,
         "Gear Basing": 1
+    },
+    solardevice: {
+        "Gear Basing": 1,
+        solar: 1,
+        divinus: 1,
+        rare: 1
     }
 };
 
@@ -136,6 +142,8 @@ document.getElementById('load-btn').addEventListener('change', loadGameState);
 document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
 document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
 document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
+document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
+document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
 
 let playerLuck = 1; // Base player luck
 
@@ -191,6 +199,24 @@ function equipLuckGlove() {
     }
 }
 
+function equipSolarDevice() {
+    // Check if the "Solar Device" is in the backpack
+    if (backpack.includes("Solar Device")) {
+        // If the "Solar Device" is not already equipped, equip it
+        if (!isSolarDeviceEquipped()) {
+            backpack.push("Equipped Solar Device");
+            updateBackpackDisplay();
+            // Increase the player's luck by 50%
+            playerLuck *= 1.5;
+        }
+    }
+}
+
+function isSolarDeviceEquipped() {
+    return backpack.includes("Equipped Solar Device");
+}
+
+
 function isLuckGloveEquipped() {
     return backpack.includes("Equipped Luck Glove");
 }
@@ -212,6 +238,11 @@ function addToBackpack(item) {
     if (item === "Luck Glove") {
         const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
         equipLuckGloveButton.style.display = "block";
+    }
+    // If the item is a Solar Device, show the "Equip Solar Device" button
+    if (item === "Solar Device") {
+        const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
+        equipSolarDeviceButton.style.display = "block";
     }
 }
 
@@ -244,6 +275,11 @@ function updateBackpackDisplay() {
     if (backpack.includes("Luck Glove")) {
         const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
         equipLuckGloveButton.style.display = "block";
+    }
+    // If the "Solar Device" is in the backpack, show the "Equip Solar Device" button
+    if (backpack.includes("Solar Device")) {
+        const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
+        equipSolarDeviceButton.style.display = "block";
     }
 }
 
@@ -359,6 +395,26 @@ function craftGearBasing() {
         }
     }
     addToBackpack("Gear Basing");
+}
+
+function craftSolarDevice() {
+    const requirements = craftingRequirements.solardevice;
+    for (const rarity in requirements) {
+        const requiredAmount = requirements[rarity];
+        const availableAmount = countItemsInBackpack(rarity);
+        if (availableAmount < requiredAmount) {
+            console.error(`Not enough ${rarity} for crafting.`);
+            return;
+        }
+    }
+    // If all requirements are met, remove items from backpack and add crafted item
+    for (const rarity in requirements) {
+        const requiredAmount = requirements[rarity];
+        for (let i = 0; i < requiredAmount; i++) {
+            removeItemFromBackpack(rarity);
+        }
+    }
+    addToBackpack("Solar Device");
 }
 
 function countItemsInBackpack(item) {

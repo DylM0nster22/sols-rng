@@ -46,9 +46,16 @@ button:active {
     align-items: center;
 }
 
-#craft-gear-basing-btn, #craft-luck-glove-btn, #equip-luck-glove-btn {
+#craft-gear-basing-btn, #craft-luck-glove-btn, #equip-luck-glove-btn, #craft-solar-device-btn {
   display: block;
   margin: 0 auto;
+}
+
+#equip-solar-device-btn {
+  position: fixed;
+  right: 0;
+  top: 40%;
+  transform: translateY(-50%);
 }
 
 #equip-luck-glove-btn {
