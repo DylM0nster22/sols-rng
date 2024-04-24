@@ -159,7 +159,7 @@ function removeInvalidItemsFromBackpack() {
 
 function roll() {
     let rand = Math.random() * playerLuck; // Apply the player's luck
-    if (rand > 1) {
+    if (rand >= 1) {
         rand = 1; // Ensure that rand is always between 0 and 1
     }
   
@@ -204,7 +204,7 @@ function equipLuckGlove() {
             backpack.push("Equipped Luck Glove");
             updateBackpackDisplay();
             // Increase the player's luck by 25%
-            playerLuck *= 1.25;
+            playerLuck /= 1.25;
         }
     }
     console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
@@ -218,7 +218,7 @@ function equipSolarDevice() {
             backpack.push("Equipped Solar Device");
             updateBackpackDisplay();
             // Increase the player's luck by 50%
-            playerLuck *= 1.5;
+            playerLuck /= 1.5;
         }
     }
     console.log("Equipped Solar Device. Current luck multiplier: " + calculateLuckMultiplier());
