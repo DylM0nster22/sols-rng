@@ -147,6 +147,16 @@ document.getElementById("equip-solar-device-btn").addEventListener("click", equi
 
 let playerLuck = 1; // Base player luck
 
+function removeInvalidItemsFromBackpack() {
+    for (let i = backpack.length - 1; i >= 0; i--) {
+        const item = backpack[i];
+        if (!rarities.some(rarity => rarity.name === item) && !Object.keys(craftingRequirements).includes(item)) {
+            backpack.splice(i, 1);
+        }
+    }
+    updateBackpackDisplay();
+}
+
 function roll() {
     let rand = Math.random() * playerLuck; // Apply the player's luck
     if (rand > 1) {
