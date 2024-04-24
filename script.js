@@ -69,16 +69,17 @@ const rarities = [
 ];
 
 const craftingRequirements = {
-    item1: {
+    gearBasing: {
         common: 1,
-        rare: 3,
-        divinus: 2,
-        crystallized: 1
+        uncommon: 1,
+        rare: 1,
+        good: 1
     },
     luckGlove: {
         divinus: 2,
         crystallized: 1,
-        rare: 3
+        rare: 3,
+        "Gear Basing": 1
     }
 };
 
@@ -128,12 +129,12 @@ let autoRollInterval;
 
 document.getElementById("roll-btn").addEventListener("click", roll);
 document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
-document.getElementById("craft-btn").addEventListener("click", craftItem);
 document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
 document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
 document.getElementById('save-btn').addEventListener('click', saveGameState);
 document.getElementById('load-btn').addEventListener('change', loadGameState);
 document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
+document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
 
 function roll() {
     const rand = Math.random();
@@ -175,10 +176,13 @@ function addToBackpack(item) {
     backpack.push(item);
     updateBackpackDisplay();
 
-    // If the item is a Luck Glove, show the "Craft Luck Glove" button
+    // If the item is a Luck Glove or Gear Basing, show the corresponding button
     if (item === "Luck Glove") {
         const craftLuckGloveButton = document.getElementById("craft-luck-glove-btn");
         craftLuckGloveButton.style.display = "block";
+    } else if (item === "Gear Basing") {
+        const craftGearBasingButton = document.getElementById("craft-gear-basing-btn");
+        craftGearBasingButton.style.display = "block";
     }
 }
 
@@ -282,26 +286,6 @@ function sortByRarityDescending() {
     updateBackpackDisplay();
 }
 
-function craftItem() {
-    const requirements = craftingRequirements.item1;
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        const availableAmount = countItemsInBackpack(rarity);
-        if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting.`);
-            return;
-        }
-    }
-    // If all requirements are met, remove items from backpack and add crafted item
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        for (let i = 0; i < requiredAmount; i++) {
-            removeItemFromBackpack(rarity);
-        }
-    }
-    addToBackpack("Crafted Item");
-}
-
 function craftLuckGlove() {
     const requirements = craftingRequirements.luckGlove;
     for (const rarity in requirements) {
@@ -320,6 +304,26 @@ function craftLuckGlove() {
         }
     }
     addToBackpack("Luck Glove");
+}
+
+function craftGearBasing() {
+    const requirements = craftingRequirements.gearBasing;
+    for (const rarity in requirements) {
+        const requiredAmount = requirements[rarity];
+        const availableAmount = countItemsInBackpack(rarity);
+        if (availableAmount < requiredAmount) {
+            console.error(`Not enough ${rarity} for crafting.`);
+            return;
+        }
+    }
+    // If all requirements are met, remove items from backpack and add crafted item
+    for (const rarity in requirements) {
+        const requiredAmount = requirements[rarity];
+        for (let i = 0; i < requiredAmount; i++) {
+            removeItemFromBackpack(rarity);
+        }
+    }
+    addToBackpack("Gear Basing");
 }
 
 function countItemsInBackpack(item) {
