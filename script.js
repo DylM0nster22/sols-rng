@@ -135,9 +135,15 @@ document.getElementById('save-btn').addEventListener('click', saveGameState);
 document.getElementById('load-btn').addEventListener('change', loadGameState);
 document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
 document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
+document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
+
+let playerLuck = 1; // Base player luck
 
 function roll() {
-    const rand = Math.random();
+    let rand = Math.random() * playerLuck; // Apply the player's luck
+    if (rand > 1) {
+        rand = 1; // Ensure that rand is always between 0 and 1
+    }
   
     // Create a cumulative probability array for faster lookups
     let cumulativeProbabilities = [];
@@ -172,6 +178,23 @@ function roll() {
     console.error("Error: No rarity found.");
 }
 
+function equipLuckGlove() {
+    // Check if the "Luck Glove" is in the backpack
+    if (backpack.includes("Luck Glove")) {
+        // If the "Luck Glove" is not already equipped, equip it
+        if (!isLuckGloveEquipped()) {
+            backpack.push("Equipped Luck Glove");
+            updateBackpackDisplay();
+            // Increase the player's luck by 25%
+            playerLuck *= 1.25;
+        }
+    }
+}
+
+function isLuckGloveEquipped() {
+    return backpack.includes("Equipped Luck Glove");
+}
+
 function addToBackpack(item) {
     backpack.push(item);
     updateBackpackDisplay();
@@ -183,6 +206,12 @@ function addToBackpack(item) {
     } else if (item === "Gear Basing") {
         const craftGearBasingButton = document.getElementById("craft-gear-basing-btn");
         craftGearBasingButton.style.display = "block";
+    }
+
+    // If the item is a Luck Glove, show the "Equip Luck Glove" button
+    if (item === "Luck Glove") {
+        const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
+        equipLuckGloveButton.style.display = "block";
     }
 }
 
@@ -200,7 +229,7 @@ function updateBackpackDisplay() {
     Object.entries(rarityCounts).forEach(([rarityName, count]) => {
         const itemElement = document.createElement("div");
         itemElement.textContent = `${rarityName} (${count})`;
-        itemElement.classList.add("backpack-item");
+        itemElement.classList.add
 
         // Find the rarity object to get the color
         const rarity = rarities.find(r => r.name === rarityName);
@@ -210,6 +239,12 @@ function updateBackpackDisplay() {
 
         backpackElement.appendChild(itemElement);
     });
+
+    // If the "Luck Glove" is in the backpack, show the "Equip Luck Glove" button
+    if (backpack.includes("Luck Glove")) {
+        const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
+        equipLuckGloveButton.style.display = "block";
+    }
 }
 
 // Function to encrypt the game state data
