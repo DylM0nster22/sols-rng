@@ -46,6 +46,11 @@ button:active {
     align-items: center;
 }
 
+#craft-gear-basing-btn, #craft-luck-glove-btn, #equip-luck-glove-btn {
+  display: block;
+  margin: 0 auto;
+}
+
 .backpack {
     width: 100%;
     max-width: 400px; /* Adjust this value as needed */
