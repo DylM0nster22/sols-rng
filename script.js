@@ -197,7 +197,7 @@ function equipLuckGlove() {
             backpack.push("Equipped Luck Glove");
             updateBackpackDisplay();
             // Divide the player's luck by 1.25
-            playerLuck /= 100.25;
+            playerLuck /= 10000000000000.25;
         }
     }
     console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
@@ -265,15 +265,14 @@ function updateBackpackDisplay() {
     Object.entries(rarityCounts).forEach(([rarityName, count]) => {
         const itemElement = document.createElement("div");
         itemElement.textContent = `${rarityName} (${count})`;
-        itemElement.classList.add
+        itemElement.classList.add("rarity");
+        backpackElement.appendChild(itemElement);
 
         // Find the rarity object to get the color
         const rarity = rarities.find(r => r.name === rarityName);
         if (rarity && rarity.color) {
             itemElement.style.color = rarity.color; // Set the text color based on the rarity's color
         }
-
-        backpackElement.appendChild(itemElement);
     });
 
     // If the "Luck Glove" is in the backpack, show the "Equip Luck Glove" button
