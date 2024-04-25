@@ -147,22 +147,15 @@ document.getElementById("equip-solar-device-btn").addEventListener("click", equi
 
 let playerLuck = 1; // Base player luck
 
-function removeInvalidItemsFromBackpack() {
-    for (let i = backpack.length - 1; i >= 0; i--) {
-        const item = backpack[i];
-        if (!rarities.some(rarity => rarity.name === item) && !Object.keys(craftingRequirements).includes(item)) {
-            backpack.splice(i, 1);
-        }
-    }
-    updateBackpackDisplay();
-}
-
 function roll() {
     let rand = Math.random() * playerLuck; // Apply the player's luck
     if (rand >= 1) {
         rand = 1; // Ensure that rand is always between 0 and 1
     }
   
+    // Sort the rarities in ascending order of their chances
+    rarities.sort((a, b) => a.chance - b.chance);
+
     // Create a cumulative probability array for faster lookups
     let cumulativeProbabilities = [];
     let currentProbability = 0;
@@ -203,7 +196,7 @@ function equipLuckGlove() {
         if (!isLuckGloveEquipped()) {
             backpack.push("Equipped Luck Glove");
             updateBackpackDisplay();
-            // Increase the player's luck by 25%
+            // Divide the player's luck by 1.25
             playerLuck /= 1.25;
         }
     }
@@ -217,7 +210,7 @@ function equipSolarDevice() {
         if (!isSolarDeviceEquipped()) {
             backpack.push("Equipped Solar Device");
             updateBackpackDisplay();
-            // Increase the player's luck by 50%
+            // Divide the player's luck by 1.5
             playerLuck /= 1.5;
         }
     }
