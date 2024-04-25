@@ -209,7 +209,7 @@ function equipLuckGlove() {
             backpack.push("Equipped Luck Glove");
             updateBackpackDisplay();
             // Divide the player's luck by 1.25
-            playerLuck /= 10000000000000.25;
+            playerLuck /= 1000.25;
         }
     }
     console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
