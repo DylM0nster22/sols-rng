@@ -133,6 +133,8 @@ for (const rarity of rarities) {
 
 let autoRollInterval;
 
+let playerLuck = 1; // Base player luck
+
 document.getElementById("roll-btn").addEventListener("click", roll);
 document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
 document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
@@ -145,8 +147,6 @@ document.getElementById("equip-luck-glove-btn").addEventListener("click", equipL
 document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
 document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
 document.getElementById("unequip-all").addEventListener("click", unequipAll);
-
-let playerLuck = 1; // Base player luck
 
 function roll() {
     let rand = Math.random() * playerLuck; // Apply the player's luck
