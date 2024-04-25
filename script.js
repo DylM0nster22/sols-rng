@@ -110,350 +110,352 @@ const updateExoticColor = () => {
 // Start cycling through colors every second (1000 milliseconds)
 setInterval(updateExoticColor, 1000);
 
-const backpack = [];
+let backpack = [];
 
-const backpackButton = document.getElementById("backpack-button");
-const backpackContent = document.getElementById("backpack-content");
+document.addEventListener("DOMContentLoaded", function() {
+    const backpackButton = document.getElementById("backpack-button");
+    const backpackContent = document.getElementById("backpack-content");
 
-backpackButton.addEventListener("click", () => {
-    if (backpackContent.style.display === "none") {
-        backpackContent.style.display = "block";
-    } else {
-        backpackContent.style.display = "none";
+    backpackButton.addEventListener("click", () => {
+        if (backpackContent.style.display === "none") {
+            backpackContent.style.display = "block";
+        } else {
+            backpackContent.style.display = "none";
+        }
+    });
+
+    // Calculate the sum of all rarity chances
+    const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
+
+    // Normalize the rarity chances
+    for (const rarity of rarities) {
+        rarity.chance /= sumOfChances;
+    }
+
+    let autoRollInterval;
+
+    let playerLuck = 1; // Base player luck
+
+    document.getElementById("roll-btn").addEventListener("click", roll);
+    document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
+    document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
+    document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
+    document.getElementById('save-btn').addEventListener('click', saveGameState);
+    document.getElementById('load-btn').addEventListener('change', loadGameState);
+    document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
+    document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
+    document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
+    document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
+    document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
+    document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
+
+    function roll() {
+        let rand = Math.random() * playerLuck; // Apply the player's luck
+        if (rand >= 1) {
+            rand = 1; // Ensure that rand is always between 0 and 1
+        }
+      
+        // Sort the rarities in ascending order of their chances
+        rarities.sort((a, b) => a.chance - b.chance);
+
+        // Create a cumulative probability array for faster lookups
+        let cumulativeProbabilities = [];
+        let currentProbability = 0;
+        for (const rarity of rarities) {
+          currentProbability += rarity.chance;
+          cumulativeProbabilities.push(currentProbability);
+        }
+      
+        // Check if rand is less than the first cumulative probability (common case)
+        if (rand < cumulativeProbabilities[0]) {
+            addToBackpack(rarities[0].name);
+            return;
+        }
+
+        // Find the rarity using binary search for the rest of the array
+        let lowerIndex = 0;
+        let upperIndex = cumulativeProbabilities.length - 1;
+      
+        while (lowerIndex <= upperIndex) {
+          const middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
+          if (rand >= cumulativeProbabilities[middleIndex - 1] && rand < cumulativeProbabilities[middleIndex]) {
+            addToBackpack(rarities[middleIndex].name);
+            return; 
+          } else if (rand < cumulativeProbabilities[middleIndex]) {
+            upperIndex = middleIndex - 1;
+          } else {
+            lowerIndex = middleIndex + 1;
+          }
+        }
+      
+        console.error("Error: No rarity found.");
+    }
+
+    function unequipAll() {
+        // Remove all equipped items from the backpack
+        backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device"].includes(item));
+
+        // Reset the player's luck to its base value
+        playerLuck = 1;
+
+        // Update the UI to reflect the changes
+        updateBackpackDisplay();
+    }
+
+    function equipLuckGlove() {
+        // Check if the "Luck Glove" is in the backpack
+        if (backpack.includes("Luck Glove")) {
+            // If the "Luck Glove" is not already equipped, equip it
+            if (!isLuckGloveEquipped()) {
+                backpack.push("Equipped Luck Glove");
+                updateBackpackDisplay();
+                // Divide the player's luck by 1.25
+                playerLuck /= 1.25;
+            }
+        }
+        console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
+    }
+
+    function equipSolarDevice() {
+        // Check if the "Solar Device" is in the backpack
+        if (backpack.includes("Solar Device")) {
+            // If the "Solar Device" is not already equipped, equip it
+            if (!isSolarDeviceEquipped()) {
+                backpack.push("Equipped Solar Device");
+                updateBackpackDisplay();
+                // Divide the player's luck by 1.5
+                playerLuck /= 1.5;
+            }
+        }
+        console.log("Equipped Solar Device. Current luck multiplier: " + calculateLuckMultiplier());
+    }
+
+    function isSolarDeviceEquipped() {
+        return backpack.includes("Equipped Solar Device");
+    }
+
+
+    function isLuckGloveEquipped() {
+        return backpack.includes("Equipped Luck Glove");
+    }
+
+    function addToBackpack(item) {
+        backpack.push(item);
+        updateBackpackDisplay();
+
+        // If the item is a Luck Glove or Gear Basing, show the corresponding button
+        if (item === "Luck Glove") {
+            const craftLuckGloveButton = document.getElementById("craft-luck-glove-btn");
+            craftLuckGloveButton.style.display = "block";
+        } else if (item === "Gear Basing") {
+            const craftGearBasingButton = document.getElementById("craft-gear-basing-btn");
+            craftGearBasingButton.style.display = "block";
+        }
+
+        // If the item is a Luck Glove, show the "Equip Luck Glove" button
+        if (item === "Luck Glove") {
+            const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
+            equipLuckGloveButton.style.display = "block";
+        }
+        // If the item is a Solar Device, show the "Equip Solar Device" button
+        if (item === "Solar Device") {
+            const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
+            equipSolarDeviceButton.style.display = "block";
+        }
+    }
+
+    function updateBackpackDisplay() {
+        const backpackElement = document.querySelector(".backpack");
+        backpackElement.innerHTML = "<h2>Backpack:</h2>";
+
+        // Count the occurrences of each rarity in the backpack
+        const rarityCounts = {};
+        backpack.forEach(item => {
+            rarityCounts[item] = (rarityCounts[item] || 0) + 1;
+        });
+
+        // Display each rarity present in the backpack with its count and color
+        Object.entries(rarityCounts).forEach(([rarityName, count]) => {
+            const itemElement = document.createElement("div");
+            itemElement.textContent = `${rarityName} (${count})`;
+            itemElement.classList.add("rarity");
+            backpackElement.appendChild(itemElement);
+
+            // Find the rarity object to get the color
+            const rarity = rarities.find(r => r.name === rarityName);
+            if (rarity && rarity.color) {
+                itemElement.style.color = rarity.color; // Set the text color based on the rarity's color
+            }
+        });
+
+        // If the "Luck Glove" is in the backpack, show the "Equip Luck Glove" button
+        if (backpack.includes("Luck Glove")) {
+            const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
+            equipLuckGloveButton.style.display = "block";
+        }
+        // If the "Solar Device" is in the backpack, show the "Equip Solar Device" button
+        if (backpack.includes("Solar Device")) {
+            const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
+            equipSolarDeviceButton.style.display = "block";
+        }
+    }
+
+    // Function to encrypt the game state data
+    function encrypt(data) {
+        const encryptedData = btoa(data); // Using Base64 encoding for encryption
+        return encryptedData;
+    }
+
+    // Function to decrypt the encrypted game state data
+    function decrypt(data) {
+        const decryptedData = atob(data); // Using Base64 decoding for decryption
+        return decryptedData;
+    }
+
+    // Function to save game state to a text file
+    function saveGameState() {
+        const encryptedData = encrypt(JSON.stringify(backpack)); // Encrypt the game data
+        const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        // Create a link element and click it to trigger file download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'game_save.txt';
+        a.click();
+
+        // Clean up by revoking the object URL
+        URL.revokeObjectURL(url);
+    }
+
+    // Function to load game state from a text file
+    function loadGameState(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            const encryptedData = reader.result;
+            const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
+            const gameData = JSON.parse(decryptedData); // Parse JSON string to JavaScript array
+            backpack.length = 0; // Clear current backpack
+            gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
+            updateBackpackDisplay(); // Update UI to reflect changes
+        };
+
+        reader.readAsText(file);
+    }
+
+    function toggleAutoRoll() {
+        if (autoRollInterval) {
+            clearInterval(autoRollInterval);
+            autoRollInterval = null;
+        } else {
+            autoRollInterval = setInterval(roll, 0.00001); // Change interval as desired (in milliseconds)
+        }
+    }
+
+    function sortByRarityAscending() {
+        console.log("Sorting backpack items by rarity in ascending order...");
+        backpack.sort((item1, item2) => {
+            const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
+            const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
+            return rarityIndex1 - rarityIndex2;
+        });
+        updateBackpackDisplay();
+    }
+
+    function sortByRarityDescending() {
+        console.log("Sorting backpack items by rarity in descending order...");
+        backpack.sort((item1, item2) => {
+            const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
+            const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
+            return rarityIndex2 - rarityIndex1;
+        });
+        updateBackpackDisplay();
+    }
+
+    function craftLuckGlove() {
+        const requirements = craftingRequirements.luckGlove;
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            const availableAmount = countItemsInBackpack(rarity);
+            if (availableAmount < requiredAmount) {
+                console.error(`Not enough ${rarity} for crafting.`);
+                return;
+            }
+        }
+        // If all requirements are met, remove items from backpack and add crafted item
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            for (let i = 0; i < requiredAmount; i++) {
+                removeItemFromBackpack(rarity);
+            }
+        }
+        addToBackpack("Luck Glove");
+    }
+
+    function craftGearBasing() {
+        const requirements = craftingRequirements.gearBasing;
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            const availableAmount = countItemsInBackpack(rarity);
+            if (availableAmount < requiredAmount) {
+                console.error(`Not enough ${rarity} for crafting.`);
+                return;
+            }
+        }
+        // If all requirements are met, remove items from backpack and add crafted item
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            for (let i = 0; i < requiredAmount; i++) {
+                removeItemFromBackpack(rarity);
+            }
+        }
+        addToBackpack("Gear Basing");
+    }
+
+    function craftSolarDevice() {
+        const requirements = craftingRequirements.solardevice;
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            const availableAmount = countItemsInBackpack(rarity);
+            if (availableAmount < requiredAmount) {
+                console.error(`Not enough ${rarity} for crafting.`);
+                return;
+            }
+        }
+        // If all requirements are met, remove items from backpack and add crafted item
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            for (let i = 0; i < requiredAmount; i++) {
+                removeItemFromBackpack(rarity);
+            }
+        }
+        addToBackpack("Solar Device");
+    }
+
+    function countItemsInBackpack(item) {
+        return backpack.filter(i => i === item).length;
+    }
+
+    function removeItemFromBackpack(item) {
+        const index = backpack.indexOf(item);
+        if (index !== -1) {
+            backpack.splice(index, 1);
+        }
+        updateBackpackDisplay();
+    }
+
+    // Function to calculate the current luck multiplier based on the equipped items
+    function calculateLuckMultiplier() {
+        let multiplier = 1;
+        if (isLuckGloveEquipped()) {
+            multiplier *= 1.25;
+        }
+        if (isSolarDeviceEquipped()) {
+            multiplier *= 1.5;
+        }
+        console.log("Current luck multiplier: " + multiplier);
+        return multiplier;
     }
 });
-
-// Calculate the sum of all rarity chances
-const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
-
-// Normalize the rarity chances
-for (const rarity of rarities) {
-    rarity.chance /= sumOfChances;
-}
-
-let autoRollInterval;
-
-let playerLuck = 1; // Base player luck
-
-document.getElementById("roll-btn").addEventListener("click", roll);
-document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
-document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
-document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
-document.getElementById('save-btn').addEventListener('click', saveGameState);
-document.getElementById('load-btn').addEventListener('change', loadGameState);
-document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
-document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
-document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
-document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
-document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
-document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
-
-function roll() {
-    let rand = Math.random() * playerLuck; // Apply the player's luck
-    if (rand >= 1) {
-        rand = 1; // Ensure that rand is always between 0 and 1
-    }
-  
-    // Sort the rarities in ascending order of their chances
-    rarities.sort((a, b) => a.chance - b.chance);
-
-    // Create a cumulative probability array for faster lookups
-    let cumulativeProbabilities = [];
-    let currentProbability = 0;
-    for (const rarity of rarities) {
-      currentProbability += rarity.chance;
-      cumulativeProbabilities.push(currentProbability);
-    }
-  
-    // Check if rand is less than the first cumulative probability (common case)
-    if (rand < cumulativeProbabilities[0]) {
-        addToBackpack(rarities[0].name);
-        return;
-    }
-
-    // Find the rarity using binary search for the rest of the array
-    let lowerIndex = 0;
-    let upperIndex = cumulativeProbabilities.length - 1;
-  
-    while (lowerIndex <= upperIndex) {
-      const middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
-      if (rand >= cumulativeProbabilities[middleIndex - 1] && rand < cumulativeProbabilities[middleIndex]) {
-        addToBackpack(rarities[middleIndex].name);
-        return; 
-      } else if (rand < cumulativeProbabilities[middleIndex]) {
-        upperIndex = middleIndex - 1;
-      } else {
-        lowerIndex = middleIndex + 1;
-      }
-    }
-  
-    console.error("Error: No rarity found.");
-}
-
-function unequipAll() {
-    // Remove all equipped items from the backpack
-    backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device"].includes(item));
-
-    // Reset the player's luck to its base value
-    playerLuck = 1;
-
-    // Update the UI to reflect the changes
-    updateBackpackDisplay();
-}
-
-function equipLuckGlove() {
-    // Check if the "Luck Glove" is in the backpack
-    if (backpack.includes("Luck Glove")) {
-        // If the "Luck Glove" is not already equipped, equip it
-        if (!isLuckGloveEquipped()) {
-            backpack.push("Equipped Luck Glove");
-            updateBackpackDisplay();
-            // Divide the player's luck by 1.25
-            playerLuck /= 1.25;
-        }
-    }
-    console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
-}
-
-function equipSolarDevice() {
-    // Check if the "Solar Device" is in the backpack
-    if (backpack.includes("Solar Device")) {
-        // If the "Solar Device" is not already equipped, equip it
-        if (!isSolarDeviceEquipped()) {
-            backpack.push("Equipped Solar Device");
-            updateBackpackDisplay();
-            // Divide the player's luck by 1.5
-            playerLuck /= 1.5;
-        }
-    }
-    console.log("Equipped Solar Device. Current luck multiplier: " + calculateLuckMultiplier());
-}
-
-function isSolarDeviceEquipped() {
-    return backpack.includes("Equipped Solar Device");
-}
-
-
-function isLuckGloveEquipped() {
-    return backpack.includes("Equipped Luck Glove");
-}
-
-function addToBackpack(item) {
-    backpack.push(item);
-    updateBackpackDisplay();
-
-    // If the item is a Luck Glove or Gear Basing, show the corresponding button
-    if (item === "Luck Glove") {
-        const craftLuckGloveButton = document.getElementById("craft-luck-glove-btn");
-        craftLuckGloveButton.style.display = "block";
-    } else if (item === "Gear Basing") {
-        const craftGearBasingButton = document.getElementById("craft-gear-basing-btn");
-        craftGearBasingButton.style.display = "block";
-    }
-
-    // If the item is a Luck Glove, show the "Equip Luck Glove" button
-    if (item === "Luck Glove") {
-        const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
-        equipLuckGloveButton.style.display = "block";
-    }
-    // If the item is a Solar Device, show the "Equip Solar Device" button
-    if (item === "Solar Device") {
-        const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
-        equipSolarDeviceButton.style.display = "block";
-    }
-}
-
-function updateBackpackDisplay() {
-    const backpackElement = document.querySelector(".backpack");
-    backpackElement.innerHTML = "<h2>Backpack:</h2>";
-
-    // Count the occurrences of each rarity in the backpack
-    const rarityCounts = {};
-    backpack.forEach(item => {
-        rarityCounts[item] = (rarityCounts[item] || 0) + 1;
-    });
-
-    // Display each rarity present in the backpack with its count and color
-    Object.entries(rarityCounts).forEach(([rarityName, count]) => {
-        const itemElement = document.createElement("div");
-        itemElement.textContent = `${rarityName} (${count})`;
-        itemElement.classList.add("rarity");
-        backpackElement.appendChild(itemElement);
-
-        // Find the rarity object to get the color
-        const rarity = rarities.find(r => r.name === rarityName);
-        if (rarity && rarity.color) {
-            itemElement.style.color = rarity.color; // Set the text color based on the rarity's color
-        }
-    });
-
-    // If the "Luck Glove" is in the backpack, show the "Equip Luck Glove" button
-    if (backpack.includes("Luck Glove")) {
-        const equipLuckGloveButton = document.getElementById("equip-luck-glove-btn");
-        equipLuckGloveButton.style.display = "block";
-    }
-    // If the "Solar Device" is in the backpack, show the "Equip Solar Device" button
-    if (backpack.includes("Solar Device")) {
-        const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
-        equipSolarDeviceButton.style.display = "block";
-    }
-}
-
-// Function to encrypt the game state data
-function encrypt(data) {
-    const encryptedData = btoa(data); // Using Base64 encoding for encryption
-    return encryptedData;
-}
-
-// Function to decrypt the encrypted game state data
-function decrypt(data) {
-    const decryptedData = atob(data); // Using Base64 decoding for decryption
-    return decryptedData;
-}
-
-// Function to save game state to a text file
-function saveGameState() {
-    const encryptedData = encrypt(JSON.stringify(backpack)); // Encrypt the game data
-    const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-
-    // Create a link element and click it to trigger file download
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'game_save.txt';
-    a.click();
-
-    // Clean up by revoking the object URL
-    URL.revokeObjectURL(url);
-}
-
-// Function to load game state from a text file
-function loadGameState(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function() {
-        const encryptedData = reader.result;
-        const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
-        const gameData = JSON.parse(decryptedData); // Parse JSON string to JavaScript array
-        backpack.length = 0; // Clear current backpack
-        gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
-        updateBackpackDisplay(); // Update UI to reflect changes
-    };
-
-    reader.readAsText(file);
-}
-
-function toggleAutoRoll() {
-    if (autoRollInterval) {
-        clearInterval(autoRollInterval);
-        autoRollInterval = null;
-    } else {
-        autoRollInterval = setInterval(roll, 0.00001); // Change interval as desired (in milliseconds)
-    }
-}
-
-function sortByRarityAscending() {
-    console.log("Sorting backpack items by rarity in ascending order...");
-    backpack.sort((item1, item2) => {
-        const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
-        const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
-        return rarityIndex1 - rarityIndex2;
-    });
-    updateBackpackDisplay();
-}
-
-function sortByRarityDescending() {
-    console.log("Sorting backpack items by rarity in descending order...");
-    backpack.sort((item1, item2) => {
-        const rarityIndex1 = rarities.findIndex(rarity => rarity.name === item1);
-        const rarityIndex2 = rarities.findIndex(rarity => rarity.name === item2);
-        return rarityIndex2 - rarityIndex1;
-    });
-    updateBackpackDisplay();
-}
-
-function craftLuckGlove() {
-    const requirements = craftingRequirements.luckGlove;
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        const availableAmount = countItemsInBackpack(rarity);
-        if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting.`);
-            return;
-        }
-    }
-    // If all requirements are met, remove items from backpack and add crafted item
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        for (let i = 0; i < requiredAmount; i++) {
-            removeItemFromBackpack(rarity);
-        }
-    }
-    addToBackpack("Luck Glove");
-}
-
-function craftGearBasing() {
-    const requirements = craftingRequirements.gearBasing;
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        const availableAmount = countItemsInBackpack(rarity);
-        if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting.`);
-            return;
-        }
-    }
-    // If all requirements are met, remove items from backpack and add crafted item
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        for (let i = 0; i < requiredAmount; i++) {
-            removeItemFromBackpack(rarity);
-        }
-    }
-    addToBackpack("Gear Basing");
-}
-
-function craftSolarDevice() {
-    const requirements = craftingRequirements.solardevice;
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        const availableAmount = countItemsInBackpack(rarity);
-        if (availableAmount < requiredAmount) {
-            console.error(`Not enough ${rarity} for crafting.`);
-            return;
-        }
-    }
-    // If all requirements are met, remove items from backpack and add crafted item
-    for (const rarity in requirements) {
-        const requiredAmount = requirements[rarity];
-        for (let i = 0; i < requiredAmount; i++) {
-            removeItemFromBackpack(rarity);
-        }
-    }
-    addToBackpack("Solar Device");
-}
-
-function countItemsInBackpack(item) {
-    return backpack.filter(i => i === item).length;
-}
-
-function removeItemFromBackpack(item) {
-    const index = backpack.indexOf(item);
-    if (index !== -1) {
-        backpack.splice(index, 1);
-    }
-    updateBackpackDisplay();
-}
-
-// Function to calculate the current luck multiplier based on the equipped items
-function calculateLuckMultiplier() {
-    let multiplier = 1;
-    if (isLuckGloveEquipped()) {
-        multiplier *= 1.25;
-    }
-    if (isSolarDeviceEquipped()) {
-        multiplier *= 1.5;
-    }
-    console.log("Current luck multiplier: " + multiplier);
-    return multiplier;
-}
