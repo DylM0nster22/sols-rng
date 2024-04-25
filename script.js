@@ -146,7 +146,7 @@ document.getElementById("craft-gear-basing-btn").addEventListener("click", craft
 document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
 document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
 document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
-document.getElementById("unequip-all").addEventListener("click", unequipAll);
+document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
 
 function roll() {
     let rand = Math.random() * playerLuck; // Apply the player's luck
@@ -209,7 +209,7 @@ function equipLuckGlove() {
             backpack.push("Equipped Luck Glove");
             updateBackpackDisplay();
             // Divide the player's luck by 1.25
-            playerLuck /= 1000.25;
+            playerLuck /= 1.25;
         }
     }
     console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
