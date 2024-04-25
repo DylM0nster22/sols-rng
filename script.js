@@ -144,8 +144,20 @@ document.getElementById("craft-gear-basing-btn").addEventListener("click", craft
 document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
 document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
 document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
+document.getElementById("unequip-all").addEventListener("click", unequipAll);
 
 let playerLuck = 1; // Base player luck
+
+function unequipAll() {
+    // Remove all equipped items from the backpack
+    backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device"].includes(item));
+
+    // Reset the player's luck to its base value
+    playerLuck = 1;
+
+    // Update the UI to reflect the changes
+    updateBackpackDisplay();
+}
 
 function roll() {
     let rand = Math.random() * playerLuck; // Apply the player's luck
