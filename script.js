@@ -281,6 +281,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function simplifyFraction(numerator, denominator) {
+        var gcd = function gcd(a, b) {
+            return b ? gcd(b, a % b) : a;
+        };
+        gcd = gcd(numerator, denominator);
+        return [numerator / gcd, denominator / gcd];
+    }
+
     function updateBackpackDisplay() {
         const backpackElement = document.querySelector(".backpack");
         backpackElement.innerHTML = "<h2>Backpack:</h2>";
@@ -296,7 +304,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const itemElement = document.createElement("div");
             const rarity = rarities.find(r => r.name === rarityName);
             const chance = math.fraction(rarity.chance);
-            itemElement.textContent = `${rarityName} (${count}) - ${chance.n}/${chance.d}`;
+            const simplifiedChance = simplifyFraction(chance.n, chance.d);
+            itemElement.textContent = `${rarityName} (${count}) - ${simplifiedChance[0]}/${simplifiedChance[1]}`;
             itemElement.classList.add("rarity");
             backpackElement.appendChild(itemElement);
     
@@ -520,3 +529,5 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Equipped Lunar Device. Current roll cooldown: " + rollCooldown);
     }
 });
+
+
