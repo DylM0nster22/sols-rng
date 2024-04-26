@@ -284,22 +284,23 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateBackpackDisplay() {
         const backpackElement = document.querySelector(".backpack");
         backpackElement.innerHTML = "<h2>Backpack:</h2>";
-
+    
         // Count the occurrences of each rarity in the backpack
         const rarityCounts = {};
         backpack.forEach(item => {
             rarityCounts[item] = (rarityCounts[item] || 0) + 1;
         });
-
+    
         // Display each rarity present in the backpack with its count and color
         Object.entries(rarityCounts).forEach(([rarityName, count]) => {
             const itemElement = document.createElement("div");
-            itemElement.textContent = `${rarityName} (${count}) - ${rarities.find(r => r.name === rarityName).chance.toFixed(2)}`;
+            const rarity = rarities.find(r => r.name === rarityName);
+            const chance = math.fraction(rarity.chance);
+            itemElement.textContent = `${rarityName} (${count}) - ${chance.n}/${chance.d}`;
             itemElement.classList.add("rarity");
             backpackElement.appendChild(itemElement);
-
+    
             // Find the rarity object to get the color
-            const rarity = rarities.find(r => r.name === rarityName);
             if (rarity && rarity.color) {
                 itemElement.style.color = rarity.color; // Set the text color based on the rarity's color
             }
