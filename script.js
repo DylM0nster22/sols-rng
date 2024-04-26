@@ -86,6 +86,12 @@ const craftingRequirements = {
         solar: 1,
         divinus: 1,
         rare: 1
+    },
+    lunarDevice: {
+        "Gear Basing": 1,
+        lunar: 1,
+        divinus: 1,
+        rare: 1
     }
 };
 
@@ -111,6 +117,7 @@ const updateExoticColor = () => {
 setInterval(updateExoticColor, 1000);
 
 let backpack = [];
+let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 
 document.addEventListener("DOMContentLoaded", function() {
     const backpackButton = document.getElementById("backpack-button");
@@ -195,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function unequipAll() {
         // Remove all equipped items from the backpack
-        backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device"].includes(item));
+        backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device", "Equipped Lunar Device"].includes(item));
 
         // Reset the player's luck to its base value
         playerLuck = 1;
@@ -365,7 +372,11 @@ document.addEventListener("DOMContentLoaded", function() {
             clearInterval(autoRollInterval);
             autoRollInterval = null;
         } else {
-            autoRollInterval = setInterval(roll, 0.00001); // Change interval as desired (in milliseconds)
+            let adjustedRollCooldown = rollCooldown;
+            if (isLunarDeviceEquipped()) {
+                adjustedRollCooldown *= 0.85; // Reduce the roll cooldown by 15%
+            }
+            autoRollInterval = setInterval(roll, adjustedRollCooldown);
         }
     }
 
@@ -502,7 +513,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 backpack.push("Equipped Lunar Device");
                 updateBackpackDisplay();
                 // Reduce the roll cooldown by 15% of its current value
-                rollCooldown -= rollCooldown * 0.15;
+                rollCooldown *= 0.85;
             }
         }
         console.log("Equipped Lunar Device. Current roll cooldown: " + rollCooldown);
