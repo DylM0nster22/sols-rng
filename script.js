@@ -148,6 +148,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
     document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
+    document.getElementById("equip-lunar-device-btn").addEventListener("click", equipLunarDevice);
+    document.getElementById("craft-lunar-device-btn").addEventListener("click", craftLunarDevice);
 
     function roll() {
         let rand = Math.random() * playerLuck; // Apply the player's luck
@@ -234,9 +236,12 @@ document.addEventListener("DOMContentLoaded", function() {
         return backpack.includes("Equipped Solar Device");
     }
 
-
     function isLuckGloveEquipped() {
         return backpack.includes("Equipped Luck Glove");
+    }
+
+    function isLunarDeviceEquipped() {
+        return backpack.includes("Equipped Lunar Device");
     }
 
     function addToBackpack(item) {
@@ -261,6 +266,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (item === "Solar Device") {
             const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
             equipSolarDeviceButton.style.display = "block";
+        }
+        // If the item is a Lunar Device, show the "Equip Lunar Device" button
+        if (item === "Lunar Device") {
+            const equipLunarDeviceButton = document.getElementById("equip-lunar-device-btn");
+            equipLunarDeviceButton.style.display = "block";
         }
     }
 
@@ -297,6 +307,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (backpack.includes("Solar Device")) {
             const equipSolarDeviceButton = document.getElementById("equip-solar-device-btn");
             equipSolarDeviceButton.style.display = "block";
+        }
+        // If the "Lunar Device" is in the backpack, show the "Equip Lunar Device" button
+        if (backpack.includes("Lunar Device")) {
+            const equipLunarDeviceButton = document.getElementById("equip-lunar-device-btn");
+            equipLunarDeviceButton.style.display = "block";
         }
     }
 
@@ -434,6 +449,26 @@ document.addEventListener("DOMContentLoaded", function() {
         addToBackpack("Solar Device");
     }
 
+    function craftLunarDevice() {
+        const requirements = craftingRequirements.lunarDevice;
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            const availableAmount = countItemsInBackpack(rarity);
+            if (availableAmount < requiredAmount) {
+                console.error(`Not enough ${rarity} for crafting.`);
+                return;
+            }
+        }
+        // If all requirements are met, remove items from backpack and add crafted item
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            for (let i = 0; i < requiredAmount; i++) {
+                removeItemFromBackpack(rarity);
+            }
+        }
+        addToBackpack("Lunar Device");
+    }
+
     function countItemsInBackpack(item) {
         return backpack.filter(i => i === item).length;
     }
@@ -457,5 +492,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         console.log("Current luck multiplier: " + multiplier);
         return multiplier;
+    }
+    
+    function equipLunarDevice() {
+        // Check if the "Lunar Device" is in the backpack
+        if (backpack.includes("Lunar Device")) {
+            // If the "Lunar Device" is not already equipped, equip it
+            if (!isLunarDeviceEquipped()) {
+                backpack.push("Equipped Lunar Device");
+                updateBackpackDisplay();
+                // Reduce the roll cooldown by 15% of its current value
+                rollCooldown -= rollCooldown * 0.15;
+            }
+        }
+        console.log("Equipped Lunar Device. Current roll cooldown: " + rollCooldown);
     }
 });
