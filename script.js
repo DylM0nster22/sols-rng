@@ -66,6 +66,7 @@ const rarities = [
     { name: "abyssal hunter", chance: 1e-8, color: "#00008B" },
     { name: "impeached", chance: 5e-9, color: "#FFA07A" },
     { name: "archangel", chance: 4e-9, color: "#FFFACD" }
+    { name: "rayan", chance: 3141592653589793238462643383279502884}
 ];
 
 const craftingRequirements = {
@@ -117,7 +118,7 @@ const updateExoticColor = () => {
 setInterval(updateExoticColor, 1000);
 
 let backpack = [];
-let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
+let rollCooldown = 000.1; // Set the initial roll cooldown to 1000 milliseconds
 
 document.addEventListener("DOMContentLoaded", function() {
     const backpackButton = document.getElementById("backpack-button");
