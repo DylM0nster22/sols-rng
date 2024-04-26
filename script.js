@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Display each rarity present in the backpack with its count and color
         Object.entries(rarityCounts).forEach(([rarityName, count]) => {
             const itemElement = document.createElement("div");
-            itemElement.textContent = `${rarityName} (${count}) - ${rarities.find(r => r.name === rarityName).chance}`;
+            itemElement.textContent = `${rarityName} (${count}) - ${rarities.find(r => r.name === rarityName).chance.toFixed(2)}`;
             itemElement.classList.add("rarity");
             backpackElement.appendChild(itemElement);
 
