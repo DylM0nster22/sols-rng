@@ -281,35 +281,25 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function simplifyFraction(numerator, denominator) {
-        var gcd = function gcd(a, b) {
-            return b ? gcd(b, a % b) : a;
-        };
-        gcd = gcd(numerator, denominator);
-        return [numerator / gcd, denominator / gcd];
-    }
-
     function updateBackpackDisplay() {
         const backpackElement = document.querySelector(".backpack");
         backpackElement.innerHTML = "<h2>Backpack:</h2>";
-    
+
         // Count the occurrences of each rarity in the backpack
         const rarityCounts = {};
         backpack.forEach(item => {
             rarityCounts[item] = (rarityCounts[item] || 0) + 1;
         });
-    
+
         // Display each rarity present in the backpack with its count and color
         Object.entries(rarityCounts).forEach(([rarityName, count]) => {
             const itemElement = document.createElement("div");
-            const rarity = rarities.find(r => r.name === rarityName);
-            const chance = math.fraction(rarity.chance);
-            const simplifiedChance = simplifyFraction(chance.n, chance.d);
-            itemElement.textContent = `${rarityName} (${count}) - ${simplifiedChance[0]}/${simplifiedChance[1]}`;
+            itemElement.textContent = `${rarityName} (${count})`;
             itemElement.classList.add("rarity");
             backpackElement.appendChild(itemElement);
-    
+
             // Find the rarity object to get the color
+            const rarity = rarities.find(r => r.name === rarityName);
             if (rarity && rarity.color) {
                 itemElement.style.color = rarity.color; // Set the text color based on the rarity's color
             }
@@ -529,5 +519,3 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Equipped Lunar Device. Current roll cooldown: " + rollCooldown);
     }
 });
-
-
