@@ -84,7 +84,7 @@ const craftingRequirements = {
     },
     solardevice: {
         "Gear Basing": 1,
-        "solar 1/5000": 1,
+        "solar 1/5,000": 1,
         "divinus 1/32": 1,
         "rare 1/16": 1
     },
