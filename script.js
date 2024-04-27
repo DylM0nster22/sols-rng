@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let playerLuck = 1; // Base player luck
 
+    document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("roll-btn").addEventListener("click", roll);
     document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
     document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
@@ -160,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
     document.getElementById("equip-lunar-device-btn").addEventListener("click", equipLunarDevice);
     document.getElementById("craft-lunar-device-btn").addEventListener("click", craftLunarDevice);
+    });
 
     function roll() {
         let rand = Math.random() * playerLuck; // Apply the player's luck
@@ -200,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
           }
         }
         // Increment the roll count
-        rollCount = rollCount + 1;
+        rollCount++;
 
         // Update the roll count display
         updateRollCountDisplay();
