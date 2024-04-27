@@ -119,6 +119,8 @@ setInterval(updateExoticColor, 1000);
 
 let backpack = [];
 let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
+let startTime = Date.now(); // This will be the start time of the game
+let rollCount = 0; // This will be the number of rolls
 
 document.addEventListener("DOMContentLoaded", function() {
     const backpackButton = document.getElementById("backpack-button");
@@ -168,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Sort the rarities in ascending order of their chances
         rarities.sort((a, b) => a.chance - b.chance);
 
+        rollCount++;
         // Create a cumulative probability array for faster lookups
         let cumulativeProbabilities = [];
         let currentProbability = 0;
@@ -197,10 +200,31 @@ document.addEventListener("DOMContentLoaded", function() {
             lowerIndex = middleIndex + 1;
           }
         }
+
+        updateRollCountDisplay();
       
         console.error("Error: No rarity found.");
     }
 
+    function updateRollCountDisplay() {
+        // Assuming you have an element with id "roll-count" to display the roll count
+        const rollCountElement = document.getElementById("roll-count");
+        rollCountElement.textContent = `Roll Count: ${rollCount}`;
+    }
+    
+    function updatePlayTimeDisplay() {
+        // Assuming you have an element with id "play-time" to display the play time
+        const playTimeElement = document.getElementById("play-time");
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
+        const seconds = Math.floor(elapsedTime / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        playTimeElement.textContent = `Play Time: ${hours}h ${minutes % 60}m ${seconds % 60}s`;
+    }
+
+    setInterval(updatePlayTimeDisplay, 1000);
+    
     function unequipAll() {
         // Remove all equipped items from the backpack
         backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device", "Equipped Lunar Device"].includes(item));
