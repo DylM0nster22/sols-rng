@@ -170,7 +170,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Sort the rarities in ascending order of their chances
         rarities.sort((a, b) => a.chance - b.chance);
 
-        rollCount++;
         // Create a cumulative probability array for faster lookups
         let cumulativeProbabilities = [];
         let currentProbability = 0;
@@ -200,9 +199,13 @@ document.addEventListener("DOMContentLoaded", function() {
             lowerIndex = middleIndex + 1;
           }
         }
+        // Increment the roll count
+        rollCount = rollCount + 1;
 
+        // Update the roll count display
         updateRollCountDisplay();
       
+        // Log an error message if no rarity is found
         console.error("Error: No rarity found.");
     }
 
@@ -224,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     setInterval(updatePlayTimeDisplay, 1000);
-    
+
     function unequipAll() {
         // Remove all equipped items from the backpack
         backpack = backpack.filter(item => !["Equipped Luck Glove", "Equipped Solar Device", "Equipped Lunar Device"].includes(item));
