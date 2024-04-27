@@ -120,7 +120,6 @@ setInterval(updateExoticColor, 1000);
 let backpack = [];
 let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 let startTime = Date.now(); // This will be the start time of the game
-let rollCount = 0; // This will be the number of rolls
 
 document.addEventListener("DOMContentLoaded", function() {
     const backpackButton = document.getElementById("backpack-button");
@@ -145,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let autoRollInterval;
 
     let playerLuck = 1; // Base player luck
-    let rollCount = 0; // This will be the number of rolls
 
     document.getElementById("roll-btn").addEventListener("click", roll);
     document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
@@ -202,18 +200,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         console.error("Error: No rarity found.");
-        // Increment the roll count
-        rollCount++;
-        console.log("Roll count incremented. Current count: " + rollCount);
-
-        // Update the roll count display
-        updateRollCountDisplay();
-
-    }
-    
-    function updateRollCountDisplay() {
-        const rollCountElement = document.getElementById("roll-count");
-        rollCountElement.textContent = `Roll Count: ${rollCount}`;
     }
     
     function updatePlayTimeDisplay() {
@@ -365,16 +351,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to save game state to a text file
     function saveGameState() {
-        const encryptedData = encrypt(JSON.stringify(backpack)); // Encrypt the game data
+        // Save the backpack and play time to local storage
+        localStorage.setItem('backpack', JSON.stringify(backpack));
+        localStorage.setItem('playTime', Date.now() - startTime);
+    
+        // Convert the backpack to a string for download
+        const backpackString = JSON.stringify(backpack);
+    
+        // Encrypt the game data
+        const encryptedData = encrypt(backpackString);
+    
+        // Create a Blob from the encrypted data
         const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
+    
+        // Create a URL for the Blob
         const url = URL.createObjectURL(blob);
-
+    
         // Create a link element and click it to trigger file download
         const a = document.createElement('a');
         a.href = url;
         a.download = 'game_save.txt';
         a.click();
-
+    
         // Clean up by revoking the object URL
         URL.revokeObjectURL(url);
     }
@@ -383,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function loadGameState(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
-
+    
         reader.onload = function() {
             const encryptedData = reader.result;
             const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
@@ -391,8 +389,14 @@ document.addEventListener("DOMContentLoaded", function() {
             backpack.length = 0; // Clear current backpack
             gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
             updateBackpackDisplay(); // Update UI to reflect changes
+    
+            // Load the play time from local storage
+            const playTime = localStorage.getItem('playTime');
+            // Assuming you have an element with id "play-time" to display the play time
+            const playTimeElement = document.getElementById("play-time");
+            playTimeElement.textContent = `Play Time: ${playTime}ms`;
         };
-
+    
         reader.readAsText(file);
     }
 
