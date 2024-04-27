@@ -145,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let autoRollInterval;
 
     let playerLuck = 1; // Base player luck
+    let rollCount = 0; // This will be the number of rolls
 
     document.getElementById("roll-btn").addEventListener("click", roll);
     document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
@@ -208,9 +209,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // Log an error message if no rarity is found
         console.error("Error: No rarity found.");
     }
-
+    
     function updateRollCountDisplay() {
-        // Assuming you have an element with id "roll-count" to display the roll count
         const rollCountElement = document.getElementById("roll-count");
         rollCountElement.textContent = `Roll Count: ${rollCount}`;
     }
