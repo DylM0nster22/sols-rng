@@ -71,28 +71,28 @@ const rarities = [
 
 const craftingRequirements = {
     gearBasing: {
-        common: 1,
-        uncommon: 1,
-        rare: 1,
-        good: 1
+        "common 1/2": 1,
+        "uncommon 1/4": 1,
+        "rare 1/16": 1,
+        "good 1/5": 1
     },
     luckGlove: {
-        divinus: 2,
-        crystallized: 1,
-        rare: 3,
+        "divinus 1/32": 2,
+        "crystallized 1/64": 1,
+        "rare 1/16": 3,
         "Gear Basing": 1
     },
     solardevice: {
         "Gear Basing": 1,
-        solar: 1,
-        divinus: 1,
-        rare: 1
+        "solar 1/5000": 1,
+        "divinus 1/32": 1,
+        "rare 1/16": 1
     },
     lunarDevice: {
         "Gear Basing": 1,
-        lunar: 1,
-        divinus: 1,
-        rare: 1
+        "lunar 1/5000": 1,
+        "divinus 1/32": 1,
+        "rare 1/16": 1
     }
 };
 
