@@ -200,14 +200,15 @@ document.addEventListener("DOMContentLoaded", function() {
             lowerIndex = middleIndex + 1;
           }
         }
+
+        console.error("Error: No rarity found.");
         // Increment the roll count
         rollCount++;
+        console.log("Roll count incremented. Current count: " + rollCount);
 
         // Update the roll count display
         updateRollCountDisplay();
-      
-        // Log an error message if no rarity is found
-        console.error("Error: No rarity found.");
+
     }
     
     function updateRollCountDisplay() {
