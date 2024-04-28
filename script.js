@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
     document.getElementById("equip-lunar-device-btn").addEventListener("click", equipLunarDevice);
     document.getElementById("craft-lunar-device-btn").addEventListener("click", craftLunarDevice);
+    document.getElementById("roll-amount").addEventListener("click", roll);
 
     function roll() {
         let rand = Math.random() * playerLuck; // Apply the player's luck
@@ -200,6 +201,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         console.error("Error: No rarity found.");
+    }
+
+    function countrollamount() {
+
+        const rollamount = document.getElementById("roll-amount");
+
     }
     
     function updatePlayTimeDisplay() {
