@@ -367,15 +367,19 @@ document.addEventListener("DOMContentLoaded", function() {
         // Save the backpack and play time to local storage
         localStorage.setItem('backpack', JSON.stringify(backpack));
         localStorage.setItem('playTime', Date.now() - startTime);
+        localStorage.setItem('rollcount', JSON.stringify(rollCount));
     
         // Convert the backpack to a string for download
         const backpackString = JSON.stringify(backpack);
+        const rollCountString = JSON.stringify(rollCount);
     
         // Encrypt the game data
         const encryptedData = encrypt(backpackString);
+        const encryptedRollCount = encrypt(rollCountString);
     
         // Create a Blob from the encrypted data
         const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
+
     
         // Create a URL for the Blob
         const url = URL.createObjectURL(blob);
@@ -402,6 +406,12 @@ document.addEventListener("DOMContentLoaded", function() {
             backpack.length = 0; // Clear current backpack
             gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
             updateBackpackDisplay(); // Update UI to reflect changes
+
+            // Load the roll count from local storage
+            const rollCount = JSON.parse(localStorage.getItem('rollcount'));
+            // Assuming you have an element with id "roll-count" to display the roll count
+            const rollCountElement = document.getElementById("roll-count");
+            rollCountElement.textContent = `Roll Count: ${rollCount}`;
     
             // Load the play time from local storage
             const playTime = localStorage.getItem('playTime');
