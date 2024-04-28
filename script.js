@@ -117,10 +117,6 @@ const updateExoticColor = () => {
 // Start cycling through colors every second (1000 milliseconds)
 setInterval(updateExoticColor, 1000);
 
-setInterval(saveGameStateToCookie, 30 * 1000);
-
-loadGameState();
-
 let backpack = [];
 let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 let startTime = Date.now(); // This will be the start time of the game
@@ -140,8 +136,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Calculate the sum of all rarity chances
     const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
-
-    const saveGameStateToCookie = function() {
 
     // Normalize the rarity chances
     for (const rarity of rarities) {
@@ -373,19 +367,15 @@ document.addEventListener("DOMContentLoaded", function() {
         // Save the backpack and play time to local storage
         localStorage.setItem('backpack', JSON.stringify(backpack));
         localStorage.setItem('playTime', Date.now() - startTime);
-        localStorage.setItem('rollcount', JSON.stringify(rollCount));
     
         // Convert the backpack to a string for download
         const backpackString = JSON.stringify(backpack);
-        const rollCountString = JSON.stringify(rollCount);
     
         // Encrypt the game data
         const encryptedData = encrypt(backpackString);
-        const encryptedRollCount = encrypt(rollCountString);
     
         // Create a Blob from the encrypted data
         const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
-
     
         // Create a URL for the Blob
         const url = URL.createObjectURL(blob);
@@ -401,35 +391,26 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Function to load game state from a text file
-    function loadGameState() {
-        // Load the backpack from the cookie
-        const encryptedData = document.cookie.split(';').find(c => c.trim().startsWith('backpack='));
-        if (encryptedData) {
-            const backpackString = decrypt(encryptedData.split('=')[1]);
-            backpack = JSON.parse(backpackString);
-            updateBackpackDisplay();
-        }
+    function loadGameState(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
     
-        // Load the roll count from the cookie
-        const encryptedRollCount = document.cookie.split(';').find(c => c.trim().startsWith('rollCount='));
-        if (encryptedRollCount) {
-            const rollCountString = decrypt(encryptedRollCount.split('=')[1]);
-            rollCount = JSON.parse(rollCountString);
-        }
-    }
-
-    function saveGameStateToCookie() {
-        // Convert the backpack to a string for storage
-        const backpackString = JSON.stringify(backpack);
-        const rollCountString = JSON.stringify(rollCount);
+        reader.onload = function() {
+            const encryptedData = reader.result;
+            const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
+            const gameData = JSON.parse(decryptedData); // Parse JSON string to JavaScript array
+            backpack.length = 0; // Clear current backpack
+            gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
+            updateBackpackDisplay(); // Update UI to reflect changes
     
-        // Encrypt the game data
-        const encryptedData = encrypt(backpackString);
-        const encryptedRollCount = encrypt(rollCountString);
+            // Load the play time from local storage
+            const playTime = localStorage.getItem('playTime');
+            // Assuming you have an element with id "play-time" to display the play time
+            const playTimeElement = document.getElementById("play-time");
+            playTimeElement.textContent = `Play Time: ${playTime}ms`;
+        };
     
-        // Save the encrypted data in a cookie
-        document.cookie = `backpack=${encryptedData}; max-age=${60*60*24*30}; path=/`;
-        document.cookie = `rollCount=${encryptedRollCount}; max-age=${60*60*24*30}; path=/`;
+        reader.readAsText(file);
     }
 
     function toggleAutoRoll() {
@@ -582,6 +563,5 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         console.log("Equipped Lunar Device. Current roll cooldown: " + rollCooldown);
-    };
     }
 });
