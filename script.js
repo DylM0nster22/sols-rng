@@ -120,6 +120,7 @@ setInterval(updateExoticColor, 1000);
 let backpack = [];
 let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 let startTime = Date.now(); // This will be the start time of the game
+let rollAmount = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
     const backpackButton = document.getElementById("backpack-button");
@@ -206,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function countrollamount() {
 
         const rollamount = document.getElementById("roll-amount");
+        rollamount.textContent = `Roll Amount: ${rollAmount}`;
 
     }
     
