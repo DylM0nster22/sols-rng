@@ -160,7 +160,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
     document.getElementById("equip-lunar-device-btn").addEventListener("click", equipLunarDevice);
     document.getElementById("craft-lunar-device-btn").addEventListener("click", craftLunarDevice);
-    document.getElementById("roll-amount").addEventListener("click", roll);
     document.getElementById("roll-btn").addEventListener("click", function() {
         updateRollCount();
     });
