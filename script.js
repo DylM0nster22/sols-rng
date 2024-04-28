@@ -200,11 +200,14 @@ document.addEventListener("DOMContentLoaded", function() {
             lowerIndex = middleIndex + 1;
           }
         }
+        
+        rollAmount++;
+        rollamount();
 
         console.error("Error: No rarity found.");
     }
 
-    function countrollamount() {
+    function rollamount() {
 
         const rollamount = document.getElementById("roll-amount");
         rollamount.textContent = `Roll Amount: ${rollAmount}`;
