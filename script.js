@@ -376,6 +376,11 @@ document.addEventListener("DOMContentLoaded", function() {
         rollCount = parseInt(localStorage.getItem("rollCount")) || 0;
         startTime = parseInt(localStorage.getItem("startTime")) || Date.now();
         console.log("Game state loaded from local storage.");
+
+        updateRollCount();
+        updateBackpackDisplay();
+        updatePlayTimeDisplay();
+        updateGameUI();
     }
 
     function sortByRarityAscending() {
