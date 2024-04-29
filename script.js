@@ -150,8 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
     document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
     document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
-    document.getElementById('save-btn').addEventListener('click', saveGameState);
-    document.getElementById('load-btn').addEventListener('change', loadGameState);
+    document.getElementById('save-game-btn').addEventListener('click', saveGameState);
     document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
     document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
     document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
@@ -350,90 +349,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Function to encrypt the game state data
-    function encrypt(data) {
-        const encryptedData = btoa(data); // Using Base64 encoding for encryption
-        return encryptedData;
-    }
-
-    // Function to decrypt the encrypted game state data
-    function decrypt(data) {
-        const decryptedData = atob(data); // Using Base64 decoding for decryption
-        return decryptedData;
-    }
-
-    // Function to save game state to a text file
-    function saveGameState() {
-        // Save the backpack and play time to local storage
-        if(localStorage) {
-
-        var backpack = JSON.stringify(backpack);
-        var playTime = Date.now() - startTime;
-        var rollCount = rollCount;
-
-        localStorage.setItem('backpack', JSON.stringify(backpack));
-        localStorage.setItem('rollCount', rollCount);
-
-        setInterval(saveGameState, 5 * 60 * 1000);
-
-        window.addEventListener('beforeunload', saveGameState);
-    
-        // Convert the backpack to a string for download
-        const backpackString = JSON.stringify(backpack);
-    
-        // Encrypt the game data
-        const encryptedData = encrypt(backpackString);
-    
-        // Create a Blob from the encrypted data
-        const blob = new Blob([encryptedData], { type: 'text/plain;charset=utf-8' });
-    
-        // Create a URL for the Blob
-        const url = URL.createObjectURL(blob);
-    
-        // Create a link element and click it to trigger file download
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'game_save.txt';
-        a.click();
-    
-        // Clean up by revoking the object URL
-        URL.revokeObjectURL(url);
-
-        updateRollCount();
-        updatePlayTimeDisplay();
-
-        }
-    }
-
-    // Function to load game state from a text file
-    function loadGameState() {
-
-        if(localStorage) {
-
-        
-        var backpack = localStorage.getItem("backpack")
-        var rollCount = localStorage.getItem("rollCount")
-
-        const encryptedData = localStorage.getItem('backpack');
-        if (encryptedData) {
-            const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
-            const gameData = JSON.parse(decryptedData); // Parse JSON string to JavaScript array
-            backpack.length = 0; // Clear current backpack
-            gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
-            rollCount = localStorage.getItem('rollCount');
-            updateBackpackDisplay(); // Update UI to reflect changes
-        }
-    
-        // Load the play time from local storage
-        const playTime = localStorage.getItem('playTime');
-        // Assuming you have an element with id "play-time" to display the play time
-        const playTimeElement = document.getElementById("play-time");
-        playTimeElement.textContent = `Play Time: ${playTime}ms`;
-
-        console.log("Game state loaded successfully.");
-        }
-    }
-
     function toggleAutoRoll() {
         if (autoRollInterval) {
             clearInterval(autoRollInterval);
@@ -444,6 +359,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 adjustedRollCooldown *= 0.85; // Reduce the roll cooldown by 15%
             }
             autoRollInterval = setInterval(roll, adjustedRollCooldown);
+        }
+    }
+
+    function saveGameState() {
+        const gameState = {
+            backpack: backpack,
+            rollCount: rollCount,
+            startTime: startTime
+        };
+        localStorage.setItem('gameState', JSON.stringify(gameState));
+    }
+    
+    // Load the game state
+    function loadGameState() {
+        const savedState = localStorage.getItem('gameState');
+        if (savedState) {
+            const gameState = JSON.parse(savedState);
+            backpack = gameState.backpack;
+            rollCount = gameState.rollCount;
+            startTime = gameState.startTime;
+            // Update the game UI with the loaded state
+            updateGameUI();
         }
     }
 
