@@ -367,6 +367,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // Save the backpack and play time to local storage
         localStorage.setItem('backpack', JSON.stringify(backpack));
         localStorage.setItem('playTime', Date.now() - startTime);
+        localStorage.setItem('rollCount', rollCount);
+
+        setInterval(saveGameState, 5 * 60 * 1000);
+
+        window.addEventListener('beforeunload', saveGameState);
     
         // Convert the backpack to a string for download
         const backpackString = JSON.stringify(backpack);
@@ -391,26 +396,24 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Function to load game state from a text file
-    function loadGameState(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-    
-        reader.onload = function() {
-            const encryptedData = reader.result;
+    function loadGameState() {
+        const encryptedData = localStorage.getItem('backpack');
+        if (encryptedData) {
             const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
             const gameData = JSON.parse(decryptedData); // Parse JSON string to JavaScript array
             backpack.length = 0; // Clear current backpack
             gameData.forEach(item => backpack.push(item)); // Update backpack with loaded data
+            rollCount = localStorage.getItem('rollCount');
             updateBackpackDisplay(); // Update UI to reflect changes
+        }
     
-            // Load the play time from local storage
-            const playTime = localStorage.getItem('playTime');
-            // Assuming you have an element with id "play-time" to display the play time
-            const playTimeElement = document.getElementById("play-time");
-            playTimeElement.textContent = `Play Time: ${playTime}ms`;
-        };
-    
-        reader.readAsText(file);
+        // Load the play time from local storage
+        const playTime = localStorage.getItem('playTime');
+        // Assuming you have an element with id "play-time" to display the play time
+        const playTimeElement = document.getElementById("play-time");
+        playTimeElement.textContent = `Play Time: ${playTime}ms`;
+
+        console.log("Game state loaded successfully.");
     }
 
     function toggleAutoRoll() {
