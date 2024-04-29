@@ -367,6 +367,7 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem("backpack", JSON.stringify(backpack)),
         localStorage.setItem("rollCount", rollCount),
         localStorage.setItem("startTime", Date.now())
+        console.log("Game state saved to local storage.");
     }
     
     // Load the game state
@@ -377,6 +378,7 @@ document.addEventListener("DOMContentLoaded", function() {
         updateBackpackDisplay();
         updatePlayTimeDisplay();
         updateRollCount();
+        console.log("Game state loaded from local storage.");
     }
 
     function sortByRarityAscending() {
