@@ -90,7 +90,7 @@ const craftingRequirements = {
     },
     lunarDevice: {
         "Gear Basing": 1,
-        "lunar 1/5000": 1,
+        "lunar 1/5,000": 1,
         "divinus 1/32": 1,
         "rare 1/16": 1
     }
@@ -116,6 +116,8 @@ const updateExoticColor = () => {
 
 // Start cycling through colors every second (1000 milliseconds)
 setInterval(updateExoticColor, 1000);
+
+setInterval(saveGameState, 30000);
 
 let backpack = [];
 let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
@@ -380,7 +382,6 @@ document.addEventListener("DOMContentLoaded", function() {
         updateRollCount();
         updateBackpackDisplay();
         updatePlayTimeDisplay();
-        updateGameUI();
     }
 
     function sortByRarityAscending() {
