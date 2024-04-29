@@ -70,7 +70,7 @@ button:active {
     border: 2px solid #666666;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.2);
-    text-align: left; /* Align backpack content to the left */
+    text-align: center; /* Align backpack content to the left */
 }
 
 .backpack, .shop {
