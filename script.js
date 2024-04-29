@@ -372,7 +372,6 @@ document.addEventListener("DOMContentLoaded", function() {
         var rollCount = rollCount;
 
         localStorage.setItem('backpack', JSON.stringify(backpack));
-        localStorage.setItem('play-Time', Date.now() - startTime);
         localStorage.setItem('rollCount', rollCount);
 
         setInterval(saveGameState, 5 * 60 * 1000);
