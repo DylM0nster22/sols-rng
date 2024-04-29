@@ -372,12 +372,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Load the game state
     function loadGameState() {
-        localStorage.getItem("backpack");
-        localStorage.getItem("rollCount");
-        localStorage.getItem("startTime");
-        updateBackpackDisplay();
-        updatePlayTimeDisplay();
-        updateRollCount();
+        backpack = JSON.parse(localStorage.getItem("backpack")) || [];
+        rollCount = parseInt(localStorage.getItem("rollCount")) || 0;
+        startTime = parseInt(localStorage.getItem("startTime")) || Date.now();
         console.log("Game state loaded from local storage.");
     }
 
