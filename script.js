@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("auto-roll-btn").addEventListener("click", toggleAutoRoll);
     document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
     document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
-    document.getElementById('save-game-btn').addEventListener('click', saveGameState);
+    document.getElementById('save-btn').addEventListener('click', saveGameState);
     document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
     document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
     document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
