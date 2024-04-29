@@ -151,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("sort-asc-btn").addEventListener("click", sortByRarityAscending);
     document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
     document.getElementById('save-btn').addEventListener('click', saveGameState);
+    document.getElementById('load-btn').addEventListener('click', loadGameState);
     document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
     document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
     document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
@@ -363,25 +364,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function saveGameState() {
-        const gameState = {
-            backpack: backpack,
-            rollCount: rollCount,
-            startTime: startTime
-        };
-        localStorage.setItem('gameState', JSON.stringify(gameState));
+            localStorage.setItem("backpack", JSON.stringify(backpack)),
+            localStorage.setItem("rollCount", rollCount),
+            localStorage.setItem("startTime", Date.now())
     }
     
     // Load the game state
     function loadGameState() {
-        const savedState = localStorage.getItem('gameState');
-        if (savedState) {
-            const gameState = JSON.parse(savedState);
-            backpack = gameState.backpack;
-            rollCount = gameState.rollCount;
-            startTime = gameState.startTime;
-            // Update the game UI with the loaded state
-            updateGameUI();
-        }
+        backpack = JSON.parse(localStorage.getItem("backpack"));
+        rollCount = localStorage.getItem("rollCount");
+        startTime = localStorage.getItem("startTime");
     }
 
     function sortByRarityAscending() {
