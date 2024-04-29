@@ -413,7 +413,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         
         var backpack = localStorage.getItem("backpack")
-        var playTime = localStorage.getItem("play-Time")
         var rollCount = localStorage.getItem("rollCount")
 
         const encryptedData = localStorage.getItem('backpack');
