@@ -364,16 +364,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function saveGameState() {
-            localStorage.setItem("backpack", JSON.stringify(backpack)),
-            localStorage.setItem("rollCount", rollCount),
-            localStorage.setItem("startTime", Date.now())
+        localStorage.setItem("backpack", JSON.stringify(backpack)),
+        localStorage.setItem("rollCount", rollCount),
+        localStorage.setItem("startTime", Date.now())
     }
     
     // Load the game state
     function loadGameState() {
-        let = backpack = JSON.parse(localStorage.getItem("backpack"));
-        rollCount = localStorage.getItem("rollCount");
-        startTime = localStorage.getItem("startTime");
+        localStorage.getItem("backpack");
+        localStorage.getItem("rollCount");
+        localStorage.getItem("startTime");
     }
 
     function sortByRarityAscending() {
