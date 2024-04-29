@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Load the game state
     function loadGameState() {
-        backpack = JSON.parse(localStorage.getItem("backpack"));
+        let = backpack = JSON.parse(localStorage.getItem("backpack"));
         rollCount = localStorage.getItem("rollCount");
         startTime = localStorage.getItem("startTime");
     }
