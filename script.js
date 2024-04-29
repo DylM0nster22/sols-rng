@@ -374,6 +374,9 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.getItem("backpack");
         localStorage.getItem("rollCount");
         localStorage.getItem("startTime");
+        updateBackpackDisplay();
+        updatePlayTimeDisplay();
+        updateRollCount();
     }
 
     function sortByRarityAscending() {
