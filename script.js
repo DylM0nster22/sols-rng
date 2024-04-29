@@ -365,8 +365,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to save game state to a text file
     function saveGameState() {
         // Save the backpack and play time to local storage
+        if(localStorage) {
+
+        var backpack = JSON.stringify(backpack);
+        var playTime = Date.now() - startTime;
+        var rollCount = rollCount;
+
         localStorage.setItem('backpack', JSON.stringify(backpack));
-        localStorage.setItem('playTime', Date.now() - startTime);
+        localStorage.setItem('play-Time', Date.now() - startTime);
         localStorage.setItem('rollCount', rollCount);
 
         setInterval(saveGameState, 5 * 60 * 1000);
@@ -393,10 +399,23 @@ document.addEventListener("DOMContentLoaded", function() {
     
         // Clean up by revoking the object URL
         URL.revokeObjectURL(url);
+
+        updateRollCount();
+        updatePlayTimeDisplay();
+
+        }
     }
 
     // Function to load game state from a text file
     function loadGameState() {
+
+        if(localStorage) {
+
+        
+        var backpack = localStorage.getItem("backpack")
+        var playTime = localStorage.getItem("play-Time")
+        var rollCount = localStorage.getItem("rollCount")
+
         const encryptedData = localStorage.getItem('backpack');
         if (encryptedData) {
             const decryptedData = decrypt(encryptedData); // Decrypt the encrypted game data
@@ -414,6 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
         playTimeElement.textContent = `Play Time: ${playTime}ms`;
 
         console.log("Game state loaded successfully.");
+        }
     }
 
     function toggleAutoRoll() {
