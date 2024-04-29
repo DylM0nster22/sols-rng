@@ -117,8 +117,6 @@ const updateExoticColor = () => {
 // Start cycling through colors every second (1000 milliseconds)
 setInterval(updateExoticColor, 1000);
 
-setInterval(saveGameState, 30000);
-
 let backpack = [];
 let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 let startTime = Date.now(); // This will be the start time of the game
