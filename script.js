@@ -134,6 +134,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    const shopButton = document.getElementById("shop-button");
+    const shopContent = document.getElementById("shop-content");
+
+    shopButton.addEventListener("click", () => {
+        if (shopContent.style.display === "none") {
+            shopContent.style.display = "block";
+        } else {
+            shopContent.style.display = "none";
+        }
+    });
+
     // Calculate the sum of all rarity chances
     const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
 
