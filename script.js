@@ -122,6 +122,19 @@ let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 let startTime = Date.now(); // This will be the start time of the game
 let rollCount = 0;
 
+document.querySelectorAll('.shop button').forEach(button => {
+    button.addEventListener('mouseover', function() {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = 'Required items: ' + this.dataset.items;
+        this.appendChild(tooltip);
+    });
+
+    button.addEventListener('mouseout', function() {
+        this.querySelector('.tooltip').remove();
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     const backpackButton = document.getElementById("backpack-button");
     const backpackContent = document.getElementById("backpack-content");
@@ -174,42 +187,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
     document.getElementById('save-btn').addEventListener('click', saveGameState);
     document.getElementById('load-btn').addEventListener('click', loadGameState);
-    document.getElementById("craft-luck-glove-btn").addEventListener("mouseover", function() {
-        const requirements = craftingRequirements.luckGlove;
-        let tooltipText = "Requirements:<br>";
-        for (const rarity in requirements) {
-            const requiredAmount = requirements[rarity];
-            tooltipText += `${requiredAmount} ${rarity}<br>`;
-        }
-        this.setAttribute("title", tooltipText);
-    });
-    document.getElementById("craft-gear-basing-btn").addEventListener("mouseover", function() {
-        const requirements = craftingRequirements.gearBasing;
-        let tooltipText = "Requirements:<br>";
-        for (const rarity in requirements) {
-            const requiredAmount = requirements[rarity];
-            tooltipText += `${requiredAmount} ${rarity}<br>`;
-        }
-        this.setAttribute("title", tooltipText);
-    });
-    document.getElementById("craft-solar-device-btn").addEventListener("mouseover", function() {
-        const requirements = craftingRequirements.solardevice;
-        let tooltipText = "Requirements:<br>";
-        for (const rarity in requirements) {
-            const requiredAmount = requirements[rarity];
-            tooltipText += `${requiredAmount} ${rarity}<br>`;
-        }
-        this.setAttribute("title", tooltipText);
-    });
-    document.getElementById("craft-lunar-device-btn").addEventListener("mouseover", function() {
-        const requirements = craftingRequirements.lunarDevice;
-        let tooltipText = "Requirements:<br>";
-        for (const rarity in requirements) {
-            const requiredAmount = requirements[rarity];
-            tooltipText += `${requiredAmount} ${rarity}<br>`;
-        }
-        this.setAttribute("title", tooltipText);
-    });
+    document.getElementById("craft-luck-glove-btn").addEventListener('click', craftLuckGlove);
+    document.getElementById("craft-gear-basing-btn").addEventListener('click', craftGearBasing);
+    document.getElementById("craft-solar-device-btn").addEventListener('click', craftSolarDevice);
+    document.getElementById("craft-lunar-device-btn").addEventListener('click', craftLunarDevice);
     document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
     document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
