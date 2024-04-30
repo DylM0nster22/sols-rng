@@ -1,5 +1,5 @@
 body {
-  font-family: 'Luckiest Guy', cursive; 
+  font-family: 'Luckiest Guy'; 
   background-image: url("backround.png"); 
   background-size: cover;
   background-repeat: no-repeat;
@@ -63,14 +63,14 @@ button:active {
 }
 
 .inventory {
-    width: 100%;
-    max-width: 400px; /* Adjust this value as needed */
-    margin-top: 10px;
-    padding: 10px;
-    border: 2px solid #666666;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.2);
-    text-align: center; /* Align backpack content to the left */
+  display: inline-block;
+  vertical-align: top;
+  width: 45%;
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #666666; 
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2); 
 }
 
 .backpack, .shop {
