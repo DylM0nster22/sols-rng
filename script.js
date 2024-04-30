@@ -170,6 +170,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
     document.getElementById("equip-lunar-device-btn").addEventListener("click", equipLunarDevice);
+    document.getElementById("export-btn").addEventListener("click", exportGameState);
+    document.getElementById("import-btn").addEventListener("click", importGameState);
     document.getElementById("craft-lunar-device-btn").addEventListener("click", craftLunarDevice);
     document.getElementById("roll-btn").addEventListener("click", function() {
         updateRollCount();
@@ -262,6 +264,46 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         console.log("Equipped Luck Glove. Current luck multiplier: " + calculateLuckMultiplier());
+    }
+
+    function importGameState() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+        input.onchange = function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = JSON.parse(event.target.result);
+                backpack = data.backpack;
+                rollCount = data.rollCount;
+                startTime = data.startTime;
+                console.log("Game state loaded from file.");
+                updateRollCount();
+                updateBackpackDisplay();
+                updatePlayTimeDisplay();
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    function exportGameState() {
+        const data = {
+            backpack: backpack,
+            rollCount: rollCount,
+            startTime: startTime
+        };
+        const json = JSON.stringify(data);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+    
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gameState.txt';
+        a.click();
+    
+        console.log("Game state saved to local storage and exported as gameState.txt.");
     }
 
     function equipSolarDevice() {
