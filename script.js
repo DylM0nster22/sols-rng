@@ -274,7 +274,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = function(event) {
-                const data = JSON.parse(event.target.result);
+                const encrypted = event.target.result;
+                const decrypted = atob(encrypted); // Decrypt the data
+                const data = JSON.parse(decrypted);
                 backpack = data.backpack;
                 rollCount = data.rollCount;
                 startTime = data.startTime;
@@ -295,7 +297,8 @@ document.addEventListener("DOMContentLoaded", function() {
             startTime: startTime
         };
         const json = JSON.stringify(data);
-        const blob = new Blob([json], { type: 'application/json' });
+        const encrypted = btoa(json); // Encrypt the data
+        const blob = new Blob([encrypted], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
     
         const a = document.createElement('a');
