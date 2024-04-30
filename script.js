@@ -174,16 +174,48 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("sort-desc-btn").addEventListener("click", sortByRarityDescending);
     document.getElementById('save-btn').addEventListener('click', saveGameState);
     document.getElementById('load-btn').addEventListener('click', loadGameState);
-    document.getElementById("craft-luck-glove-btn").addEventListener("click", craftLuckGlove);
-    document.getElementById("craft-gear-basing-btn").addEventListener("click", craftGearBasing);
+    document.getElementById("craft-luck-glove-btn").addEventListener("mouseover", function() {
+        const requirements = craftingRequirements.luckGlove;
+        let tooltipText = "Requirements:<br>";
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            tooltipText += `${requiredAmount} ${rarity}<br>`;
+        }
+        this.setAttribute("title", tooltipText);
+    });
+    document.getElementById("craft-gear-basing-btn").addEventListener("mouseover", function() {
+        const requirements = craftingRequirements.gearBasing;
+        let tooltipText = "Requirements:<br>";
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            tooltipText += `${requiredAmount} ${rarity}<br>`;
+        }
+        this.setAttribute("title", tooltipText);
+    });
+    document.getElementById("craft-solar-device-btn").addEventListener("mouseover", function() {
+        const requirements = craftingRequirements.solardevice;
+        let tooltipText = "Requirements:<br>";
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            tooltipText += `${requiredAmount} ${rarity}<br>`;
+        }
+        this.setAttribute("title", tooltipText);
+    });
+    document.getElementById("craft-lunar-device-btn").addEventListener("mouseover", function() {
+        const requirements = craftingRequirements.lunarDevice;
+        let tooltipText = "Requirements:<br>";
+        for (const rarity in requirements) {
+            const requiredAmount = requirements[rarity];
+            tooltipText += `${requiredAmount} ${rarity}<br>`;
+        }
+        this.setAttribute("title", tooltipText);
+    });
     document.getElementById("equip-luck-glove-btn").addEventListener("click", equipLuckGlove);
-    document.getElementById("craft-solar-device-btn").addEventListener("click", craftSolarDevice);
     document.getElementById("equip-solar-device-btn").addEventListener("click", equipSolarDevice);
     document.getElementById("unequip-all-btn").addEventListener("click", unequipAll);
     document.getElementById("equip-lunar-device-btn").addEventListener("click", equipLunarDevice);
     document.getElementById("export-btn").addEventListener("click", exportGameState);
     document.getElementById("import-btn").addEventListener("click", importGameState);
-    document.getElementById("craft-lunar-device-btn").addEventListener("click", craftLunarDevice);
     document.getElementById("roll-btn").addEventListener("click", function() {
         updateRollCount();
     });
