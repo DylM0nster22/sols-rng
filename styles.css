@@ -51,6 +51,17 @@ button:active {
   margin: 0 auto;
 }
 
+#sort-by-rarity, #save-load-games {
+  text-align: center;
+}
+
+#sort-by-rarity, #save-load-games, #sort-by-rarity .dropdown-content, #save-load-games .dropdown-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .backpack {
     width: 100%;
     max-width: 400px; /* Adjust this value as needed */
