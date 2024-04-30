@@ -145,6 +145,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    const saveLoadGamesButton = document.getElementById("save-load-games");
+    const saveLoadGamesContent = document.getElementById("save-load-games-content");
+
+    saveLoadGamesButton.addEventListener("click", () => {
+        if (saveLoadGamesContent.style.display === "none") {
+            saveLoadGamesContent.style.display = "block";
+        } else {
+            saveLoadGamesContent.style.display = "none";
+        }
+    });
+
     // Calculate the sum of all rarity chances
     const sumOfChances = rarities.reduce((total, rarity) => total + rarity.chance, 0);
 
