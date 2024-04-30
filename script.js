@@ -122,15 +122,15 @@ let rollCooldown = 1000; // Set the initial roll cooldown to 1000 milliseconds
 let startTime = Date.now(); // This will be the start time of the game
 let rollCount = 0;
 
-document.querySelectorAll('.shop button').forEach(button => {
-    button.addEventListener('mouseover', function() {
+document.querySelectorAll('.shop .craftable').forEach(item => {
+    item.addEventListener('mouseover', function() {
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltip';
         tooltip.textContent = 'Required items: ' + this.dataset.items;
         this.appendChild(tooltip);
     });
 
-    button.addEventListener('mouseout', function() {
+    item.addEventListener('mouseout', function() {
         this.querySelector('.tooltip').remove();
     });
 });
