@@ -36,10 +36,6 @@ button:hover {
   background-color: #2980b9; 
 }
 
-button:active {
-  transform: translateY(2px);
-}
-
 button {
   text-align: center;
 }
@@ -82,11 +78,6 @@ button {
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.2);
     text-align: left; /* Align backpack content to the left */
-}
-
-.game-container {
-  display: flex;
-  justify-content: center;
 }
 
 .backpack, .shop, .save-load-buttons, .inventory {
