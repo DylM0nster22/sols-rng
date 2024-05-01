@@ -40,6 +40,10 @@ button:active {
   transform: translateY(2px);
 }
 
+button {
+  text-align: center;
+}
+
 #backpack-container {
     display: flex;
     flex-direction: column;
@@ -62,6 +66,13 @@ button:active {
   flex-direction: column;
 }
 
+#sort-by-rarity, #save-load-games {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .backpack {
     width: 100%;
     max-width: 400px; /* Adjust this value as needed */
@@ -71,6 +82,11 @@ button:active {
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.2);
     text-align: left; /* Align backpack content to the left */
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
 }
 
 .inventory {
