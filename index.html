@@ -28,10 +28,6 @@
         <button id="unequip-all-btn">Unequip All</button>
         <p id="roll-count">Roll Count: 0</p>
         <div id="play-time">Play Time: 0h 0m 0s</div>
-        <button id="sellButton">Sell</button>
-        <button id="sellButton10">Sell 10</button>
-        <button id="sellButton100">Sell 100</button>
-        <button id="sellButton1000">Sell 1000</button>
     </div>
     <div id="backpack-container">
          <button class="backpack-button" id="backpack-button">Backpack</button>
@@ -44,6 +40,27 @@
                 <button id="craft-gear-basing-btn" class="craftable" data-items="1x common, 1x uncommon, 1x rare, 1x good">Craft Gear Basing</button>
                 <button id="craft-solar-device-btn" class="craftable" data-items="1x solar, 1x divinus, 1x rare 1x gear basing">Craft Solar Device</button>
                 <button id="craft-lunar-device-btn" class="craftable" data-items="1x Lunar, 1x rare, 1x divinus, 1x gear basing">Craft Lunar Device</button>
+            </div>
+            <div class="rarity">
+                <span>Common</span>
+                <button onclick="sellRarityForCoins('Common', 1)">Sell 1</button>
+                <button onclick="sellRarityForCoins('Common', 10)">Sell 10</button>
+                <button onclick="sellRarityForCoins('Common', 100)">Sell 100</button>
+                <button onclick="sellRarityForCoins('Common', 1000)">Sell 1000</button>
+            </div>
+            <div class="rarity">
+                <span>Uncommon</span>
+                <button onclick="sellRarityForCoins('Uncommon', 1)">Sell 1</button>
+                <button onclick="sellRarityForCoins('Uncommon', 10)">Sell 10</button>
+                <button onclick="sellRarityForCoins('Uncommon', 100)">Sell 100</button>
+                <button onclick="sellRarityForCoins('Uncommon', 1000)">Sell 1000</button>
+            </div>
+            <div class="rarity">
+                <span>Rare</span>
+                <button onclick="sellRarityForCoins('Rare', 1)">Sell 1</button>
+                <button onclick="sellRarityForCoins('Rare', 10)">Sell 10</button>
+                <button onclick="sellRarityForCoins('Rare', 100)">Sell 100</button>
+                <button onclick="sellRarityForCoins('Rare', 1000)">Sell 1000</button>
             </div>
         </div>
         <div class="save-load-buttons">

@@ -139,7 +139,6 @@ const createSellButtons = () => {
     });
 }; 
 
-
 createSellButtons();
 
 const sellRarityForCoins = (rarityName, amount) => {
