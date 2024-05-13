@@ -251,37 +251,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const rollCountElement = document.getElementById("roll-count");
         rollCountElement.textContent = `Roll Count: ${rollCount}`;
     }
-
-    function initializeSellButtons() {
-        const container = document.getElementById('rarityContainer'); // Assuming you have a container div in HTML for rarities.
-        
-        // Loop through each rarity and create a button for it.
-        rarities.forEach(rarity => {
-            const button = document.createElement('button');
-            button.textContent = 'Sell 1 ' + rarity.name;
-            button.addEventListener('click', () => sellRarity(rarity.name)); // When clicked, sell one of this rarity.
-            container.appendChild(button); // Add the button to the HTML container.
-        });
-    }
-    
-    // Call the initialization function when your page loads.
-    initializeSellButtons();
-
-    function sellRarity(rarity) {
-        // Find the rarity object based on its name.
-        const selectedRarity = rarities.find(r => r.name === rarity);
-        
-        // If the rarity is found and the player has at least one of it.
-        if (selectedRarity && selectedRarity.count > 0) {
-            // Increase coin count by 1.
-            coins++;
-            // Decrease the count of the sold rarity by 1.
-            selectedRarity.count--;
-            // Update the HTML to display the new coin count.
-            document.getElementById('coins').innerText = coins;
-            // If you want to update the rarity count display in HTML too, you can do it here.
-        }
-    }
     
     function updatePlayTimeDisplay() {
         // Assuming you have an element with id "play-time" to display the play time
