@@ -113,6 +113,66 @@ const updateExoticColor = () => {
         // For example, if you're displaying the rarities in a list, you might need to refresh that list
     }
 };
+
+const createSellButtons = () => {
+    const rarityElements = document.querySelectorAll('.rarity');
+    rarityElements.forEach(rarityElement => {
+        const sellButton1 = document.createElement('button');
+        sellButton1.textContent = 'Sell 1';
+        sellButton1.addEventListener('click', () => sellRarityForCoins(rarityElement.textContent, 1));
+        rarityElement.appendChild(sellButton1);
+
+        const sellButton10 = document.createElement('button');
+        sellButton10.textContent = 'Sell 10';
+        sellButton10.addEventListener('click', () => sellRarityForCoins(rarityElement.textContent, 10));
+        rarityElement.appendChild(sellButton10);
+
+        const sellButton100 = document.createElement('button');
+        sellButton100.textContent = 'Sell 100';
+        sellButton100.addEventListener('click', () => sellRarityForCoins(rarityElement.textContent, 100));
+        rarityElement.appendChild(sellButton100);
+
+        const sellButton1000 = document.createElement('button');
+        sellButton1000.textContent = 'Sell 1000';
+        sellButton1000.addEventListener('click', () => sellRarityForCoins(rarityElement.textContent, 1000));
+        rarityElement.appendChild(sellButton1000);
+    });
+}; 
+
+createSellButtons();
+
+const sellRarityForCoins = (rarityName, amount) => {
+    const rarityToSell = rarities.find(rarity => rarity.name === rarityName);
+    if (rarityToSell) {
+        // Add coins to the backpack
+        addToBackpack("Coins", amount);
+        // Remove the sold rarity from the backpack
+        for (let i = 0; i < amount; i++) {
+            removeItemFromBackpack(rarityName);
+        }
+        // Update the UI to reflect the changes
+        updateBackpackDisplay();
+    }
+};
+
+const addToBackpack = (item, amount) => {
+    if (item === "Coins") {
+        coins += amount;
+    } else {
+        // Add the item to the backpack as usual
+        // ...
+    }
+};
+
+const removeItemFromBackpack = (item) => {
+    if (item === "Coins") {
+        coins = 0; // Reset the coins
+    } else {
+        // Remove the item from the backpack as usual
+        // ...
+    }
+};
+
 // Start cycling through colors every second (1000 milliseconds)
 setInterval(updateExoticColor, 1000);
 
